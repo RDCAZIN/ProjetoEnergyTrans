@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    height: 100vh;
+
+    background-image: url("/static/img/BASE.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    background-position: center top;
+
+    /* melhora percepção visual */
+    image-rendering: auto;
+    /*cetraliza*/
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.conteiner{
+    position: relative;
+    background-color: #FFFFFF;   
+    width: 676px; 
+    height: 229px;
+    justify-content: center;
+    text-align: center;
+    border-radius: 15px;
+    padding: auto;
+}
+
+h1{
+    margin-top: 51px;
+}
+
+#usuario {
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color:#82B0FE;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 45px;
+    width: 153px;
+}
+
+#coletor{
+    padding: 15px 30px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color:#66CE89;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 45px;
+    width: 153px;
+
+}
+
+.btn-voltar {
+    position: absolute;
+    top: 15px;   /* distância do topo do container */
+    left: 15px;  /* distância da esquerda do container */
+
+    width: 44px;
+    height: 44px;
+
+    background-image: url("/static/img/voltar_branco.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+
+

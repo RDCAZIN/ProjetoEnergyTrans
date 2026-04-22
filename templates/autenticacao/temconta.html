@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Perfil</title>
+     <link rel="stylesheet" href="{{url_for('static', filename = 'css/index.css')}}">
+</head>
+<body>
+    <div class="conteiner">
+        <a href="{{ url_for('main.home') }}" class="btn-voltar"></a>
+        <h1>Você já possui uma conta?</h1>
+        <form method="POST" action="/possui_conta">
+            <button type="submit" name="possui_conta" value="sim" id="usuario">SIM</button>
+            <button type="submit" name="possui_conta" value="nao" id="coletor">NÃO</button>
+        </form>
+    </div>
+        
+</body>
+</html>

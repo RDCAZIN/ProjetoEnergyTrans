@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+    <div class="conteiner_login">
+
+        <!-- Botão voltar -->
+        <a href="{{url_for('main.tem_conta')}}" class="btn-voltar"></a>
+
+        <h1>LOGIN</h1>
+
+        <form method="POST">
+
+            <!-- EMAIL -->
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" id="email" required>
+
+            <!-- SENHA + ESQUECEU -->
+            <div class="linha-senha" id="linha-senha">
+                <label for="senha" class="label_senha">Senha:</label>
+                <a href="/recuperar_senha" class="esqueceu">Esqueceu?</a>
+            </div>
+
+            <input type="password" name="senha" id="senha" required>
+
+            <!-- BOTÃO -->
+            <button type="submit" class="btn-entrar">ENTRAR</button>
+
+        </form>
+
+    </div>
+</body>
+</html>

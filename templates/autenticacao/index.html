@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Perfil</title>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/index.css')}}">
+</head>
+<body>
+    <div class="conteiner">
+        <h1>Como você deseja utilizar a plataforma?</h1>
+        <form method="POST" action="{{ url_for('main.escolha') }}">
+            <button type="submit" name="tipo" value="usuario" id="usuario">USÚARIO</button>
+            <button type="submit" name="tipo" value="coletor" id="coletor">COLETOR</button>
+        </form>
+    </div>
+        
+</body>
+</html>
