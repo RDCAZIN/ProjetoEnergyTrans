@@ -7,32 +7,42 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
 </head>
 <body>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="conteiner_cadastro">
-        <a href="{{url_for('main.tem_conta')}}" class="btn-voltar"></a>
+        <a href="{{ url_for('main.tem_conta') }}" class="btn-voltar"></a>
         
         <h1>CADASTRO</h1>
+
         <form method="POST">
             <label for="nome_cadastro">Nome:</label>
             <input type="text" name="nome_cadastro" id="nome_cadastro" required>
 
-            <!-- EMAIL -->
             <label for="email_cadastro">E-mail:</label>
             <input type="email" name="email_cadastro" id="email_cadastro" required>
 
-            <!-- SENHA-->
-            
-            <label for="senha_cadastro" class="label_senha">Senha:</label>
-            
+            <label for="senha_cadastro">Senha:</label>
             <input type="password" name="senha_cadastro" id="senha_cadastro" required>
 
-            <label for="confirma_senha" class="label_senha">Confirmar senha:</label>
+            <label for="confirma_senha">Confirmar senha:</label>
             <input type="password" name="confirma_senha" id="confirma_senha" required>
 
-            <!-- BOTÃO -->
             <button type="submit" class="btn-entrar">CADASTRAR</button>
-
         </form>
     </div>
-    
+
+    <!-- JS EXTERNO -->
+    <script src="{{ url_for('static', filename='js/flash.js') }}"></script>
+
 </body>
 </html>

@@ -8,14 +8,13 @@ body {
     background-attachment: fixed;
     background-position: center top;
 
-    image-rendering: auto;
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.conteiner_login{
+/* CONTAINER */
+.conteiner_login {
     position: relative;
     background-color: #FFFFFF;   
     width: 676px; 
@@ -29,6 +28,7 @@ body {
     justify-content: center;
 }
 
+/* BOTÃO VOLTAR */
 .btn-voltar {
     position: absolute;
     top: 15px;
@@ -47,6 +47,7 @@ body {
     cursor: pointer;
 }
 
+/* FORM */
 form {
     display: flex;
     flex-direction: column;
@@ -54,6 +55,7 @@ form {
     text-align: left;
 }
 
+/* TÍTULO */
 h1 {
     position: absolute;
     top: 20px;
@@ -61,6 +63,7 @@ h1 {
     transform: translateX(-50%);
 }
 
+/* INPUTS */
 input {
     background-color: #F8F8DE;
     border: none;
@@ -70,6 +73,7 @@ input {
     outline: none;
 }
 
+/* LABELS */
 label {
     margin-left: 10px;
     font-size: 12pt;
@@ -77,6 +81,7 @@ label {
     color: black;
 }
 
+/* LINHA SENHA */
 #linha-senha {
     margin-top: 40px;
     display: flex;
@@ -84,6 +89,7 @@ label {
     align-items: center;
 }
 
+/* LINK ESQUECEU */
 .esqueceu {
     font-size: 12pt;
     color: #4BB6F0;
@@ -95,6 +101,7 @@ label {
     text-decoration: underline;
 }
 
+/* BOTÃO */
 button {
     height: 56px;
     width: 176px;
@@ -104,6 +111,57 @@ button {
     border: none;
     font-weight: bolder;
 
-    margin: 20px auto 0 auto; /* centralizado */
+    margin: 20px auto 0 auto;
     display: block;
+}
+
+/* FLASH*/
+#flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+/* BASE */
+.flash {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+
+    opacity: 1;
+    transform: translateY(-10px);
+    animation: slideDown 0.5s ease forwards;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* TIPOS */
+.flash.erro {
+    background-color: #ff4d4d;
+}
+
+.flash.sucesso {
+    background-color: #4CAF50;
+}
+
+/* ENTRADA */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* SAÍDA */
+.flash.hide {
+    opacity: 0;
+    transform: translateY(-20px);
 }

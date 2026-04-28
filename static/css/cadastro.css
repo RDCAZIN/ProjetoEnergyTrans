@@ -8,14 +8,13 @@ body {
     background-attachment: fixed;
     background-position: center top;
 
-    image-rendering: auto;
-
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.conteiner_cadastro{
+/* CONTAINER PRINCIPAL */
+.conteiner_cadastro {
     position: relative;
     background-color: #FFFFFF;   
     width: 676px; 
@@ -29,6 +28,7 @@ body {
     justify-content: center;
 }
 
+/* BOTÃO VOLTAR */
 .btn-voltar {
     position: absolute;
     top: 15px;
@@ -47,6 +47,7 @@ body {
     cursor: pointer;
 }
 
+/* FORM */
 form {
     display: flex;
     flex-direction: column;
@@ -54,13 +55,15 @@ form {
     text-align: left;
 }
 
+/* TÍTULO */
 h1 {
     position: absolute;
-    top: 0%;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
 }
 
+/* INPUTS */
 input {
     background-color: #F8F8DE;
     border: none;
@@ -70,6 +73,7 @@ input {
     outline: none;
 }
 
+/* LABELS */
 label {
     margin-left: 10px;
     margin-top: 10px;
@@ -78,6 +82,7 @@ label {
     color: black;
 }
 
+/* BOTÃO */
 button {
     height: 56px;
     width: 176px;
@@ -87,6 +92,52 @@ button {
     border: none;
     font-weight: bolder;
 
-    margin: 20px auto 0 auto; /* centralizado */
+    margin: 20px auto 0 auto;
     display: block;
+}
+
+/* FLASH CORRIGIDO */
+#flash-container {
+    position: fixed; /* fica sobre tudo */
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    z-index: 9999;
+}
+
+/* MENSAGEM */
+.flash {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    /* animação */
+    transform: translateY(-10px);
+    animation: slideDown 0.5s ease forwards;
+
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ENTRADA */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* SAÍDA */
+.flash.hide {
+    opacity: 0;
+    transform: translateY(-20px);
 }

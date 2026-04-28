@@ -1,24 +1,37 @@
 # Ambiente virtual
 venv/
+.env/
 
 # Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
 
-# Variáveis de ambiente (SENHAS, CHAVES)
-.env
+# Dependências (opcional, mas comum ignorar cache)
+pip-wheel-metadata/
 
 # Banco de dados local
 *.sqlite3
 *.db
 
-# Pasta instance (Flask usa pra configs e db)
+# Flask instance
 instance/
 
-# Arquivos do sistema
-.DS_Store
-Thumbs.db
+# Cache / testes
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Logs
 *.log
+
+# 🖥 Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+
+# Arquivos sensíveis extras
+*.env

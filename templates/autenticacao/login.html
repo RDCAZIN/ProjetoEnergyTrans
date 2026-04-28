@@ -8,10 +8,24 @@
 </head>
 
 <body>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for categoria, mensagem in messages %}
+                    <div class="flash {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="conteiner_login">
 
         <!-- Botão voltar -->
-        <a href="{{url_for('main.tem_conta')}}" class="btn-voltar"></a>
+        <a href="{{ url_for('main.tem_conta') }}" class="btn-voltar"></a>
 
         <h1>LOGIN</h1>
 
@@ -23,8 +37,8 @@
 
             <!-- SENHA + ESQUECEU -->
             <div class="linha-senha" id="linha-senha">
-                <label for="senha" class="label_senha">Senha:</label>
-                <a href="/recuperar_senha" class="esqueceu">Esqueceu?</a>
+                <label for="senha">Senha:</label>
+                <a href="{{ url_for('main.esqueceu_senha') }}" class="esqueceu">Esqueceu?</a>
             </div>
 
             <input type="password" name="senha" id="senha" required>
@@ -35,5 +49,9 @@
         </form>
 
     </div>
+
+    <!-- JS DO FLASH -->
+    <script src="{{ url_for('static', filename='js/flash.js') }}"></script>
+
 </body>
 </html>
