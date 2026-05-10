@@ -115,6 +115,34 @@ def home_usuario():
 def home_coletor():
     return "HOME DO COLETOR"
 
-@main.route("/esqueceu_senha")
+#Verica se o usuario tem um email, existente para mudar a senha
+@main.route("/esqueceu_senha", methods = ["GET", "POST"])
 def esqueceu_senha():
-    return "CHORA PAI"
+    if request.method == "POST":
+        email = request.form.get("email")
+        email_exite = Usuario.query.filter_by(email = email).first()
+        if email_exite:
+            session["email"] = email
+            return redirect(url_for("main.nova_senha"))
+        else:
+            flash("Email incorreto!")
+            return redirect(url_for("main.esqueceu_senha"))
+    return render_template("autenticacao/esqueci_senha_email.html")
+#MUDA A SENHA
+@main.route("/nova_senha", methods = ["POST" , "GET"])
+def nova_senha():
+
+    if request.method == "POST":
+        senha = request.form.get("senha")
+        confirma_senha = request.form.get("confirmar_senha")
+        email = session.get("email")
+
+        if senha != confirma_senha:
+            flash("As senhas são diferentes")
+            return redirect(url_for("main.nova_senha"))
+        else:
+            usuario = Usuario.query.filter_by(email = email).first()
+            usuario.senha = senha
+            db.session.commit()
+            return redirect(url_for("main.login"))
+    return render_template("autenticacao/nova_senha.html")

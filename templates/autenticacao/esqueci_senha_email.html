@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <title>EMAIL</title>
+</head>
+<body>
+    <div class="conteiner_email">
+        <!--Botão de voltar-->
+        <a href="{{url_for('main.login')}}" class="btn-voltar">voltar</a>
+        <h1>Digite o seu E-mail</h1>
+
+        <form method="post">
+            <label for="email">E-mail</label>
+            <input type="email" class="email" name="email" required>
+            <button type="submit">CONFIRMA</button>
+        </form>
+    </div>
+    
+</body>
+</html>
