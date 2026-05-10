@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Senha</title>
+</head>
+<body>
+
+    <div class="conteiner_nova_senha">
+        <a href="{{url_for('main.esqueceu_senha')}}" class="btn-voltar">Voltar</a>
+        <H1>Mudar Senha</H1>
+        <form method="post">
+            <label for="senha">Senha</label>
+            <input type="password" name="senha" required>
+            <label for = "confirmar_senha">Confirmar Senha</label>
+            <input type="password" name="confirmar_senha" required>
+            <button type="submit">CONFIRMA</button>
+        </form>
+
+    </div>
+    
+</body>
+</html>
