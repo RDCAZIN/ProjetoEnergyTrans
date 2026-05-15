@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/esqueceu_senha_nova_senha.css') }}">
     <title>Nova Senha</title>
 </head>
 <body>
+     <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for categoria, mensagem in messages %}
+                    <div class="flash {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
     <div class="conteiner_nova_senha">
-        <a href="{{url_for('main.esqueceu_senha')}}" class="btn-voltar">Voltar</a>
+        <a href="{{url_for('main.esqueceu_senha')}}" class="btn-voltar"></a>
         <H1>Mudar Senha</H1>
         <form method="post">
             <label for="senha">Senha</label>
@@ -20,6 +33,7 @@
         </form>
 
     </div>
+    <script src="{{ url_for('static', filename='js/flash.js') }}"></script>
     
 </body>
 </html>
