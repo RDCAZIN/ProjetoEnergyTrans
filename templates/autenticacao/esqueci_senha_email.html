@@ -4,12 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/esqueceu_senha_email.css') }}">
     <title>EMAIL</title>
 </head>
 <body>
+        <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for categoria, mensagem in messages %}
+                    <div class="flash {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="conteiner_email">
         <!--Botão de voltar-->
-        <a href="{{url_for('main.login')}}" class="btn-voltar">voltar</a>
+        <a href="{{url_for('main.login')}}" class="btn-voltar"></a>
         <h1>Digite o seu E-mail</h1>
 
         <form method="post">
@@ -18,6 +32,9 @@
             <button type="submit">CONFIRMA</button>
         </form>
     </div>
+
+        <!-- JS DO FLASH -->
+    <script src="{{ url_for('static', filename='js/flash.js') }}"></script>
     
 </body>
 </html>

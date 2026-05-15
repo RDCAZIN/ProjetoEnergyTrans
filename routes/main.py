@@ -97,7 +97,10 @@ def login():
 
         # login OK
         session["usuario_id"] = usuario.id
+        session["usuario_nome"] = usuario.nome
         session["usuario_tipo"] = usuario.tipo
+
+        session.pop("tipo_usuario", None)
 
         if usuario.tipo == "coletor":
             return redirect(url_for("main.home_coletor"))
@@ -125,9 +128,10 @@ def esqueceu_senha():
             session["email"] = email
             return redirect(url_for("main.nova_senha"))
         else:
-            flash("Email incorreto!")
+            flash("Email incorreto!", "erro")
             return redirect(url_for("main.esqueceu_senha"))
     return render_template("autenticacao/esqueci_senha_email.html")
+
 #MUDA A SENHA
 @main.route("/nova_senha", methods = ["POST" , "GET"])
 def nova_senha():
@@ -138,7 +142,7 @@ def nova_senha():
         email = session.get("email")
 
         if senha != confirma_senha:
-            flash("As senhas são diferentes")
+            flash("As senhas são diferentes", "erro")
             return redirect(url_for("main.nova_senha"))
         else:
             usuario = Usuario.query.filter_by(email = email).first()

@@ -1,0 +1,140 @@
+body {
+    margin: 0;
+    height: 100vh;
+
+    background-image: url("/static/img/BASE.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center top;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.conteiner_email {
+    position: relative;
+    background-color: #FFFFFF;   
+    width: 676px; 
+    height: 480px;
+
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-voltar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+
+    width: 44px;
+    height: 44px;
+
+    background-image: url("/static/img/voltar_branco.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    width: 512px;
+    text-align: left;
+}
+
+h1 {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+input {
+    background-color: #F8F8DE;
+    border: none;
+    height: 40px;
+    border-radius: 8px;
+    padding-left: 12px;
+    outline: none;
+}
+
+/* LABELS */
+label {
+    margin-top: 100px;
+    margin-left: 10px;
+    font-size: 12pt;
+    font-weight: bold;
+    color: black;
+}
+
+button {
+    height: 56px;
+    width: 176px;
+    background-color: #82B0FE;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    font-weight: bolder;
+
+    margin: 90px auto 0 auto;
+    display: block;
+}
+
+
+/* FLASH*/
+#flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+/* BASE */
+.flash {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+
+    opacity: 1;
+    transform: translateY(-10px);
+    animation: slideDown 0.5s ease forwards;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* TIPOS */
+.flash.erro {
+    background-color: #ff4d4d;
+}
+
+.flash.sucesso {
+    background-color: #4CAF50;
+}
+
+/* ENTRADA */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* SAÍDA */
+.flash.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
