@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for,flash,session
 from models import db
 from models.usuarios import Usuario
+from models.ponto_coleta import PontoColeta
+from models.agendamento import Agendamento
 
 main = Blueprint('main', __name__)
 
@@ -109,15 +111,6 @@ def login():
 
     return render_template("autenticacao/login.html")
 
-
-@main.route("/home_usuario")
-def home_usuario():
-    return "HOME USUARIO"
-
-@main.route("/home_coletor")
-def home_coletor():
-    return "HOME DO COLETOR"
-
 #Verica se o usuario tem um email, existente para mudar a senha
 @main.route("/esqueceu_senha", methods = ["GET", "POST"])
 def esqueceu_senha():
@@ -150,3 +143,38 @@ def nova_senha():
             db.session.commit()
             return redirect(url_for("main.login"))
     return render_template("autenticacao/nova_senha.html")
+
+
+@main.route("/home_usuario")
+def home_usuario():
+
+    pontos = PontoColeta.query.filter_by(aprovado = True).all()
+    return render_template("usuario/home_usuario.html", pontos = pontos)
+
+
+@main.route("/agendar", methods = ["POST"])
+def agendar():
+    data_agendada = request.form.get("data_agendada")
+    horario = request.form.get("horario")
+    ponto_id = request.form.get("ponto_id")
+    usuario_id = session.get("usuario_id")
+
+    novo_agendamento = Agendamento(
+        data_agendada = data_agendada,
+        horario = horario,
+        ponto_coleta_id = ponto_id,
+        usuario_id = usuario_id,
+        status = "Pendente"
+
+    )
+
+    db.session.add(novo_agendamento)
+    db.session.commit()
+
+    flash("Agendamento realizado com sucesso! ")
+
+    return redirect(url_for("main.home_usuario"))
+
+@main.route("/home_coletor")
+def home_coletor():
+    return "HOME DO COLETOR"

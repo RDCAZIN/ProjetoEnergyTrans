@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Home Usuário</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/home_usuario.css') }}">
+</head>
+
+<body>
+
+    <h1>Pontos de Coleta</h1>
+
+    <div class="container-pontos">
+
+        {% for ponto in pontos %}
+
+            <div class="card-ponto">
+
+                <h2>{{ ponto.nome }}</h2>
+
+                <p>
+                    <strong>Endereço:</strong>
+                    {{ ponto.endereco }}
+                </p>
+
+                <p>
+                    <strong>Materiais:</strong>
+                    {{ ponto.materiais_aceitos }}
+                </p>
+
+                <button
+                    class="btn-detalhes"
+                    data-id="{{ ponto.id }}"
+                    data-nome="{{ ponto.nome }}"
+                    data-endereco="{{ ponto.endereco }}"
+                    data-materiais="{{ ponto.materiais_aceitos }}"
+                    data-horario="{{ ponto.horario_funcionamento }}"
+
+                >
+                    Ver detalhes
+                </button>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- MODAL -->
+
+    <div class="modal-overlay" id="modal-overlay">
+
+        <div class="modal">
+
+            <button class="fechar-modal"
+            id="fechar-modal">
+                X
+            </button>
+
+            <h2 id="modal-nome"></h2>
+
+            <p>
+                <strong>Endereço:</strong>
+                <span id="modal-endereco"></span>
+            </p>
+
+            <p>
+                <strong>Materiais:</strong>
+                <span id="modal-materiais"></span>
+            </p>
+
+            <p>
+                <strong>Horário:</strong>
+                <span id="modal-horario"></span>
+            </p>
+
+            <form method="POST"action="{{ url_for('main.agendar') }}">
+
+                <input type="hidden" name="ponto_id" id="modal-ponto-id">
+                
+                <label>Data:</label> 
+                <input type="date" name="data_agendada" required>
+
+                <label>Horário:</label>
+                <input type="time" name="horario" required>
+
+                <button type="submit" class="btn-agendar"> Confirmar agendamento </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script
+    src="{{ url_for('static', filename='js/modal_pontos.js') }}">
+    </script>
+
+</body>
+</html>

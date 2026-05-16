@@ -14,6 +14,9 @@ db.init_app(app)
 
 #importando os models
 from models.usuarios import Usuario
+from models.agendamento import Agendamento
+from models.entrega import Entrega
+from models.ponto_coleta import PontoColeta
 
 with app.app_context():
     db.create_all()
