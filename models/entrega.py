@@ -1,27 +1,31 @@
 from models import db
-from datetime import datetime
 
 class Entrega(db.Model):
+
     __tablename__ = "entregas"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer,primary_key=True)
 
-    material = db.Column(db.String(100), nullable=False)
+    material = db.Column(db.String(50),nullable=False)
 
-    quantidade = db.Column(db.Float, nullable=False)
+    peso = db.Column(db.Float,nullable=False)
 
-    pontos_gerados = db.Column(db.Integer, default=0)
-
-    data_confirmacao = db.Column(
-        db.DateTime,
-        default=datetime.utcnow
-    )
-
-    agendamento_id = db.Column(
-        db.Integer,
-        db.ForeignKey("agendamentos.id"),
+    pontos_gerados = db.Column(
+        db.Float,
         nullable=False
     )
 
-    def __repr__(self):
-        return f"<Entrega {self.id}>"
+    data_entrega = db.Column(
+        db.String(20),
+        nullable=False
+    )
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id")
+    )
+
+    ponto_coleta_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pontos_coleta.id")
+    )

@@ -15,6 +15,11 @@ class PontoColeta(db.Model):
         db.Integer,
         db.ForeignKey("usuarios.id")
     )
+    agendamentos = db.relationship(
+    "Agendamento",
+    backref="ponto_coleta",
+    lazy=True
+    )
 
     def __repr__(self):
         return f"<PontoColeta {self.nome}>"

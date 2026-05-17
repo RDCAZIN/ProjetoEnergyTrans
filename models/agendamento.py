@@ -30,6 +30,16 @@ class Agendamento(db.Model):
         db.Integer,
         db.ForeignKey("pontos_coleta.id"),
         nullable=False
+    ) 
+    
+    peso_entregue = db.Column(db.Float, nullable=True )
+
+    pontos_gerados = db.Column(db.Float, nullable=True)
+
+    
+    usuario = db.relationship(
+    "Usuario",
+    backref="agendamentos"
     )
 
     def __repr__(self):

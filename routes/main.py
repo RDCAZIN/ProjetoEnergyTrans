@@ -3,6 +3,7 @@ from models import db
 from models.usuarios import Usuario
 from models.ponto_coleta import PontoColeta
 from models.agendamento import Agendamento
+from models.entrega import Entrega
 
 main = Blueprint('main', __name__)
 
@@ -158,7 +159,7 @@ def agendar():
     horario = request.form.get("horario")
     ponto_id = request.form.get("ponto_id")
     usuario_id = session.get("usuario_id")
-
+    
     novo_agendamento = Agendamento(
         data_agendada = data_agendada,
         horario = horario,
@@ -177,4 +178,42 @@ def agendar():
 
 @main.route("/home_coletor")
 def home_coletor():
-    return "HOME DO COLETOR"
+    coletor_id = session.get("usuario_id")
+    pontos = PontoColeta.query.filter_by(coletor_id = coletor_id).all()
+    
+    return render_template ("coletor/home_coletor.html", pontos = pontos)
+
+#o coletor confirma a entrega e gera os pontos
+@main.route("/confirmar_entrega", methods = ["POST"])
+def confirmar_entrega():
+    agendamento_id = request.form.get("agendamento_id")
+    peso = float(request.form.get("peso"))
+    material = request.form.get("material")
+    agendamento = Agendamento.query.get(agendamento_id)
+    pontos = round((peso*10),2)
+
+    #atualizar status do agendamento
+    agendamento.status = "Concluido"
+    agendamento.peso_entregue = peso
+    agendamento.pontos_gerados = pontos
+
+    #adicionando pontos para usuario
+    usuario = agendamento.usuario
+    usuario.pontos += pontos
+
+    #atualizando entregas
+    nova_entrega = Entrega(
+        material = material,
+        peso = peso,
+        pontos_gerados = pontos,
+        data_entrega = agendamento.data_agendada,
+        usuario_id=usuario.id,
+        ponto_coleta_id= agendamento.ponto_coleta_id
+    )
+    db.session.add(nova_entrega)
+    db.session.commit()
+    flash("Entrega confirmada")
+    return redirect(url_for("main.home_coletor"))
+
+
+

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME COLETOR</title>
+</head>
+
+<body>
+
+    <h1>Lista de Agendamentos</h1>
+
+    <div class="conteiner_pontos">
+
+        {% for ponto in pontos %}
+
+            <div class="card-ponto">
+
+                <!-- BOTÃO DO PONTO -->
+                <button class="btn-ponto">
+
+                    {{ ponto.nome }}
+
+                </button>
+
+                <!-- LISTA DE AGENDAMENTOS -->
+                <div class="agendamentos">
+
+                    {% for agendamento in ponto.agendamentos %}
+
+                        <div class="card-agendamento">
+
+                            <p>
+                                Usuário:
+                                {{ agendamento.usuario.nome }}
+                            </p>
+
+                            <p>
+                                Data:
+                                {{ agendamento.data_agendada }}
+                            </p>
+
+                            <p>
+                                Horário:
+                                {{ agendamento.horario }}
+                            </p>
+
+                            <p>
+                                Status:
+                                {{ agendamento.status }}
+                            </p>
+
+                            <!-- SE NÃO FOI CONCLUÍDO -->
+                            {% if agendamento.status != "concluido" %}
+
+                                <button
+                                    class="btn-confirmar"
+
+                                    data-id="{{ agendamento.id }}"
+
+                                    data-usuario="{{ agendamento.usuario.nome }}"
+                                >
+                                    Confirmar entrega
+                                </button>
+
+                            {% else %}
+
+                                <!-- ENTREGA CONCLUÍDA -->
+
+                                <p>
+                                    Entrega concluída
+                                </p>
+
+                                <p>
+                                    Peso:
+                                    {{ agendamento.peso_entregue }} kg
+                                </p>
+
+                                <p>
+                                    Pontos gerados:
+                                    {{ agendamento.pontos_gerados }}
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+    <!-- MODAL -->
+
+    <div
+        id="modal-overlay"
+
+        style="display: none;"
+    >
+
+        <div class="modal">
+
+            <h2>
+                Confirmar entrega
+            </h2>
+
+            <form
+                method="POST"
+
+                action="{{ url_for('main.confirmar_entrega') }}"
+            >
+
+                <!-- ID DO AGENDAMENTO -->
+                <input
+                    type="hidden"
+
+                    name="agendamento_id"
+
+                    id="agendamento-id"
+                >
+
+                <!-- MATERIAL -->
+                <label for="material">
+
+                    Material reciclado
+
+                </label>
+
+                <select
+                    name="material"
+
+                    id="material"
+
+                    required
+                >
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="Bateria">
+                        Bateria
+                    </option>
+
+                    <option value="Painel Solar">
+                        Painel Solar
+                    </option>
+
+                    <option value="Pilha">
+                        Pilha
+                    </option>
+
+                    <option value="Eletrônicos">
+                        Eletrônicos
+                    </option>
+
+                </select>
+
+                <!-- PESO -->
+                <label for="peso">
+
+                    Peso reciclado (kg)
+
+                </label>
+
+                <input
+                    type="number"
+
+                    step="0.1"
+
+                    min="0.1"
+
+                    name="peso"
+
+                    id="peso"
+
+                    required
+                >
+
+                <!-- BOTÃO -->
+                <button type="submit">
+
+                    Confirmar
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/home_coletor.js') }}"></script>
+
+</body>
+</html>
