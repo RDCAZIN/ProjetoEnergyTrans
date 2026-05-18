@@ -193,7 +193,7 @@ def confirmar_entrega():
     pontos = round((peso*10),2)
 
     #atualizar status do agendamento
-    agendamento.status = "Concluido"
+    agendamento.status = "concluido"
     agendamento.peso_entregue = peso
     agendamento.pontos_gerados = pontos
 

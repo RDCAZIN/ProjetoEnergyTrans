@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME COLETOR</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        HOME COLETOR
+    </title>
+
 </head>
 
 <body>
 
-    <h1>Lista de Agendamentos</h1>
+    <!-- TÍTULO -->
+    <h1>
+        Lista de Agendamentos
+    </h1>
 
+    <!-- CONTAINER PRINCIPAL -->
     <div class="conteiner_pontos">
 
+        <!-- LOOP DOS PONTOS -->
         {% for ponto in pontos %}
 
             <div class="card-ponto">
@@ -26,33 +41,36 @@
                 <!-- LISTA DE AGENDAMENTOS -->
                 <div class="agendamentos">
 
+                    <!-- LOOP DOS AGENDAMENTOS -->
                     {% for agendamento in ponto.agendamentos %}
 
-                        <div class="card-agendamento">
+                        <!-- MOSTRA SOMENTE PENDENTES -->
+                        {% if agendamento.status != "concluido" %}
 
-                            <p>
-                                Usuário:
-                                {{ agendamento.usuario.nome }}
-                            </p>
+                            <div class="card-agendamento">
 
-                            <p>
-                                Data:
-                                {{ agendamento.data_agendada }}
-                            </p>
+                                <!-- INFORMAÇÕES -->
+                                <p>
+                                    <strong>Usuário:</strong>
+                                    {{ agendamento.usuario.nome }}
+                                </p>
 
-                            <p>
-                                Horário:
-                                {{ agendamento.horario }}
-                            </p>
+                                <p>
+                                    <strong>Data:</strong>
+                                    {{ agendamento.data_agendada }}
+                                </p>
 
-                            <p>
-                                Status:
-                                {{ agendamento.status }}
-                            </p>
+                                <p>
+                                    <strong>Horário:</strong>
+                                    {{ agendamento.horario }}
+                                </p>
 
-                            <!-- SE NÃO FOI CONCLUÍDO -->
-                            {% if agendamento.status != "concluido" %}
+                                <p>
+                                    <strong>Status:</strong>
+                                    {{ agendamento.status }}
+                                </p>
 
+                                <!-- BOTÃO ABRIR MODAL -->
                                 <button
                                     class="btn-confirmar"
 
@@ -60,30 +78,14 @@
 
                                     data-usuario="{{ agendamento.usuario.nome }}"
                                 >
+
                                     Confirmar entrega
+
                                 </button>
 
-                            {% else %}
+                            </div>
 
-                                <!-- ENTREGA CONCLUÍDA -->
-
-                                <p>
-                                    Entrega concluída
-                                </p>
-
-                                <p>
-                                    Peso:
-                                    {{ agendamento.peso_entregue }} kg
-                                </p>
-
-                                <p>
-                                    Pontos gerados:
-                                    {{ agendamento.pontos_gerados }}
-                                </p>
-
-                            {% endif %}
-
-                        </div>
+                        {% endif %}
 
                     {% endfor %}
 
@@ -96,7 +98,6 @@
     </div>
 
     <!-- MODAL -->
-
     <div
         id="modal-overlay"
 
@@ -109,6 +110,7 @@
                 Confirmar entrega
             </h2>
 
+            <!-- FORMULÁRIO -->
             <form
                 method="POST"
 
@@ -182,7 +184,7 @@
                     required
                 >
 
-                <!-- BOTÃO -->
+                <!-- BOTÃO SUBMIT -->
                 <button type="submit">
 
                     Confirmar
@@ -195,7 +197,11 @@
 
     </div>
 
-    <script src="{{ url_for('static', filename='js/home_coletor.js') }}"></script>
+    <!-- JAVASCRIPT -->
+    <script
+        src="{{ url_for('static', filename='js/home_coletor.js') }}"
+    ></script>
 
 </body>
+
 </html>
