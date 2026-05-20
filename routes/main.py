@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for,flash,session
 from models import db
 from models.usuarios import Usuario
+from models.ponto_coleta import PontoColeta
+from models.agendamento import Agendamento
+from models.entrega import Entrega
 
 main = Blueprint('main', __name__)
 
@@ -109,15 +112,6 @@ def login():
 
     return render_template("autenticacao/login.html")
 
-
-@main.route("/home_usuario")
-def home_usuario():
-    return "HOME USUARIO"
-
-@main.route("/home_coletor")
-def home_coletor():
-    return "HOME DO COLETOR"
-
 #Verica se o usuario tem um email, existente para mudar a senha
 @main.route("/esqueceu_senha", methods = ["GET", "POST"])
 def esqueceu_senha():
@@ -150,3 +144,100 @@ def nova_senha():
             db.session.commit()
             return redirect(url_for("main.login"))
     return render_template("autenticacao/nova_senha.html")
+
+
+@main.route("/home_usuario")
+def home_usuario():
+
+    pontos = PontoColeta.query.filter_by(aprovado = True).all()
+    return render_template("usuario/home_usuario.html", pontos = pontos)
+
+@main.route("/vizualizacao_agendamentos_usuario")
+def vizualizacao_agendamentos_usuario():
+    usuario_id = session.get("usuario_id")
+    agendamentos = Agendamento.query.filter_by(usuario_id= usuario_id)
+    return render_template("usuario/vizualizar_agendamentos.html", agendamentos = agendamentos)
+
+@main.route("/historico_usuario")
+def historico_usuario():
+    return "Historico"
+
+@main.route("/loja_cupons")
+def loja_cupons():
+    return "Cupons"
+
+
+#usuario agenda entrega
+@main.route("/agendar", methods = ["POST"])
+def agendar():
+    data_agendada = request.form.get("data_agendada")
+    horario = request.form.get("horario")
+    ponto_id = request.form.get("ponto_id")
+    usuario_id = session.get("usuario_id")
+    
+    novo_agendamento = Agendamento(
+        data_agendada = data_agendada,
+        horario = horario,
+        ponto_coleta_id = ponto_id,
+        usuario_id = usuario_id,
+        status = "Pendente"
+
+    )
+
+    db.session.add(novo_agendamento)
+    db.session.commit()
+
+    flash("Agendamento realizado com sucesso! ")
+
+    return redirect(url_for("main.home_usuario"))
+
+#-----------------
+#TELAS DO COLETOR ||
+#-----------------
+
+@main.route("/home_coletor")
+def home_coletor():
+    coletor_id = session.get("usuario_id")
+    pontos = PontoColeta.query.filter_by(coletor_id = coletor_id).all()
+    
+    return render_template ("coletor/home_coletor.html", pontos = pontos)
+
+#o coletor confirma a entrega e gera os pontos
+@main.route("/confirmar_entrega", methods = ["POST"])
+def confirmar_entrega():
+    agendamento_id = request.form.get("agendamento_id")
+    peso = float(request.form.get("peso"))
+    material = request.form.get("material")
+    agendamento = Agendamento.query.get(agendamento_id)
+    pontos = round((peso*10),2)
+
+    #atualizar status do agendamento
+    agendamento.status = "concluido"
+    agendamento.peso_entregue = peso
+    agendamento.pontos_gerados = pontos
+
+    #adicionando pontos para usuario
+    usuario = agendamento.usuario
+    usuario.pontos += pontos
+
+    #atualizando entregas
+    nova_entrega = Entrega(
+        material = material,
+        peso = peso,
+        pontos_gerados = pontos,
+        data_entrega = agendamento.data_agendada,
+        usuario_id=usuario.id,
+        ponto_coleta_id= agendamento.ponto_coleta_id
+    )
+    db.session.add(nova_entrega)
+    db.session.commit()
+    flash("Entrega confirmada")
+    return redirect(url_for("main.home_coletor"))
+
+@main.route("/cadastrar_ponto")
+def cadastrar_ponto():
+    return render_template("coletor/cadastro_de_ponto.html")
+
+
+
+
