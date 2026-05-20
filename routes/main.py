@@ -152,7 +152,22 @@ def home_usuario():
     pontos = PontoColeta.query.filter_by(aprovado = True).all()
     return render_template("usuario/home_usuario.html", pontos = pontos)
 
+@main.route("/vizualizacao_agendamentos_usuario")
+def vizualizacao_agendamentos_usuario():
+    usuario_id = session.get("usuario_id")
+    agendamentos = Agendamento.query.filter_by(usuario_id= usuario_id)
+    return render_template("usuario/vizualizar_agendamentos.html", agendamentos = agendamentos)
 
+@main.route("/historico_usuario")
+def historico_usuario():
+    return "Historico"
+
+@main.route("/loja_cupons")
+def loja_cupons():
+    return "Cupons"
+
+
+#usuario agenda entrega
 @main.route("/agendar", methods = ["POST"])
 def agendar():
     data_agendada = request.form.get("data_agendada")
@@ -175,6 +190,10 @@ def agendar():
     flash("Agendamento realizado com sucesso! ")
 
     return redirect(url_for("main.home_usuario"))
+
+#-----------------
+#TELAS DO COLETOR ||
+#-----------------
 
 @main.route("/home_coletor")
 def home_coletor():
@@ -214,6 +233,11 @@ def confirmar_entrega():
     db.session.commit()
     flash("Entrega confirmada")
     return redirect(url_for("main.home_coletor"))
+
+@main.route("/cadastrar_ponto")
+def cadastrar_ponto():
+    return render_template("coletor/cadastro_de_ponto.html")
+
 
 
 

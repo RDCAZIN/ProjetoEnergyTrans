@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos</title>
+</head>
+<body>
+    <h1>Agendamentos</h1>
+
+
+    {% for agendamento in agendamentos %}
+
+        <h2>{{agendamento.data_agendada}}</h2>
+        <h2>{{agendamento.status}}</h2>
+    {% endfor %}
+    
+</body>
+</html>
