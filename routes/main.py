@@ -234,8 +234,41 @@ def confirmar_entrega():
     flash("Entrega confirmada")
     return redirect(url_for("main.home_coletor"))
 
-@main.route("/cadastrar_ponto")
+@main.route("/cadastrar_ponto", methods = ["POST", "GET"])
 def cadastrar_ponto():
+    if request.method == "POST":
+        nome = request.form.get("nome_ponto")
+        endereco = request.form.get("endereco_ponto")
+        materiais_aceitos = request.form.get("materias_ponto")
+        horario_funcionamento = request.form.get("horario_ponto")
+        latitude = request.form.get("latitude")
+        longitude = request.form.get("longitude")
+        coletor_id = session.get("usuario_id")
+
+        if not latitude or not longitude:
+            flash("Localização invalida", "erro")
+            return redirect(url_for("main.cadastrar_ponto"))
+        else:
+            latitude = float(latitude)
+            longitude = float(longitude)
+            
+            novo_ponto = PontoColeta(
+                nome = nome,
+                endereco = endereco,
+                materiais_aceitos = materiais_aceitos,
+                horario_funcionamento = horario_funcionamento,
+                latitude = latitude,
+                longitude = longitude,
+                coletor_id = coletor_id
+            )
+
+            db.session.add(novo_ponto)
+            db.session.commit()
+            flash("Cadastro Realizado com sucesso!")
+            return redirect(url_for("main.home_coletor"))
+     
+
+
     return render_template("coletor/cadastro_de_ponto.html")
 
 
