@@ -5,6 +5,9 @@ from models.ponto_coleta import PontoColeta
 from models.agendamento import Agendamento
 from models.entrega import Entrega
 
+import folium
+import json
+
 main = Blueprint('main', __name__)
 
 # Página inicial (seleção de perfil)
@@ -148,9 +151,33 @@ def nova_senha():
 
 @main.route("/home_usuario")
 def home_usuario():
+    #criando mapa
+
+    mapa = folium.Map(
+        location=[-3.1190, -60.0217], zoom_start=13  )
 
     pontos = PontoColeta.query.filter_by(aprovado = True).all()
-    return render_template("usuario/home_usuario.html", pontos = pontos)
+
+    for ponto in pontos:
+        folium.Marker(
+            [ponto.latitude, ponto.longitude],
+            tooltip=ponto.nome
+        ).add_to(mapa)
+
+    mapa_html = mapa._repr_html_()
+    pontos_json = json.dumps([
+        {
+            "id": ponto.id,
+            "nome": ponto.nome,
+            "endereco": ponto.endereco,
+            "materiais": ponto.materiais_aceitos,
+            "horario": ponto.horario_funcionamento
+        }
+        for ponto in pontos
+
+    ])
+
+    return render_template("usuario/home_usuario.html",mapa = mapa_html, pontos_json = pontos_json)
 
 @main.route("/vizualizacao_agendamentos_usuario")
 def vizualizacao_agendamentos_usuario():
