@@ -52,9 +52,11 @@
                         Sua localização
                     </h3>
 
+                    <button class="btn-localizacao" id="btn-localizacao">Ativar localização atual</button>
+
                     <div class="box-localizacao">
 
-                        <p>
+                        <p id="texto-localizacao">
                             Manaus - AM
                         </p>
 
@@ -245,13 +247,12 @@
 
     <!-- JS -->
 
-    <script
-        src="{{ url_for(
-            'static',
-            filename='js/home_usuario.js'
-        ) }}"
-    ></script>
-
+<script
+    src="{{ url_for(
+        'static',
+        filename='js/home_usuario.js'
+    ) }}?v=2"
+></script>
 </body>
 
 </html>
