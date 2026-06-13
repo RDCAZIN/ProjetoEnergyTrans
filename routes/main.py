@@ -178,7 +178,9 @@ def home_usuario():
             "nome": ponto.nome,
             "endereco": ponto.endereco,
             "materiais": ponto.materiais_aceitos,
-            "horario": ponto.horario_funcionamento
+            "horario": ponto.horario_funcionamento,
+            "latitude": ponto.latitude,
+            "longitude": ponto.longitude
         }
         for ponto in pontos
 

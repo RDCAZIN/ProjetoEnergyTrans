@@ -289,4 +289,47 @@ window.addEventListener("load", () => {
         }
     )
 
+    // ADICIONANDO ABA DE PESQUISA 
+    const campoPesquisa = document.getElementById("pesquisar_ponto")
+    const bntPesquisar = document.getElementById("btn-pesquisar")
+
+    bntPesquisar.addEventListener(
+        "click", () =>{
+            const termo = campoPesquisa.value.toLowerCase().trim()
+            const ponto = pontos.find(
+                ponto => ponto.nome.toLowerCase().includes(termo)
+            )
+
+            if (!ponto){
+                alert("Ponto não encontrado")
+                return
+            }
+            //atualizar card
+            nomePonto.innerText = ponto.nome
+            enderecoPonto.innerText = ponto.endereco
+            materiaisPonto.innerText= "Materiais: " + ponto.materiais
+            horarioPonto.innerText= "Horario: " + ponto.horario
+            
+            //PEGAR MAPA LEAFLET
+            const iframe = document.querySelector(".mapa iframe")
+            const mapaWindow = iframe.contentWindow
+            const mapaLeaflet = Object.values(mapaWindow).find(
+                item => item instanceof mapaWindow.L.Map
+            )
+
+            //centralizando
+            mapaLeaflet.setView(
+                [ponto.latitude,
+                ponto.longitude],
+                17
+                
+            )
+
+            //SALVANDO PONTO SELECIONADO 
+
+            window.pontoSelecionado = ponto
+        }
+
+    )
+
 })

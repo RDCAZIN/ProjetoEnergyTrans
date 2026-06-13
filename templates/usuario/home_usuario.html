@@ -21,6 +21,7 @@
             filename='css/home_usuario.css'
         ) }}"
     >
+    
 
 </head>
 
@@ -116,8 +117,13 @@
 
         <main class="mapa-area">
 
-            <!-- MAPA -->
+            <div class="barra_pesquisa">
+                <input type="text" id="pesquisar_ponto" placeholder="Informe o nome do ponto">
+                <button id="btn-pesquisar">Pesquisar</button>
+            </div>
 
+            <!-- MAPA -->
+        
             <div class="mapa">
 
                 {{ mapa|safe }}
@@ -131,11 +137,7 @@
                 id="card-ponto"
             >
 
-                <h2 id="nome-ponto">
-
-                    Clique em um ponto
-
-                </h2>
+                <h2 id="nome-ponto"> Clique em um ponto</h2>
 
                 <p id="endereco-ponto">
 
