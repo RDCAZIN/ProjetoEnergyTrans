@@ -5,8 +5,11 @@ from models.ponto_coleta import PontoColeta
 from models.agendamento import Agendamento
 from models.entrega import Entrega
 
+
 import folium
 import json
+from geopy.geocoders import Nominatim
+from flask import jsonify
 
 main = Blueprint('main', __name__)
 
@@ -148,12 +151,16 @@ def nova_senha():
             return redirect(url_for("main.login"))
     return render_template("autenticacao/nova_senha.html")
 
+#---------------
+#TELAS DO USUARIO|
+#-----------------
 
 @main.route("/home_usuario")
 def home_usuario():
     #criando mapa
-
+    control_scale=True
     mapa = folium.Map(
+        
         location=[-3.1190, -60.0217], zoom_start=13  )
 
     pontos = PontoColeta.query.filter_by(aprovado = True).all()
@@ -171,13 +178,41 @@ def home_usuario():
             "nome": ponto.nome,
             "endereco": ponto.endereco,
             "materiais": ponto.materiais_aceitos,
-            "horario": ponto.horario_funcionamento
+            "horario": ponto.horario_funcionamento,
+            "latitude": ponto.latitude,
+            "longitude": ponto.longitude
         }
         for ponto in pontos
 
     ])
 
     return render_template("usuario/home_usuario.html",mapa = mapa_html, pontos_json = pontos_json)
+
+@main.route("/buscar_endereco")
+def buscar_endereco():
+    latitude = request.args.get("latitude")
+    longitude = request.args.get("longitude")
+
+    geolocator = Nominatim(user_agent="energytrans")
+    localizacao = geolocator.reverse(f"{latitude}, {longitude}")
+
+    endereco = localizacao.raw["address"]
+    bairro = endereco.get(
+        "suburb", 
+        "Bairro não encontrado")
+    cidade = endereco.get(
+        "city",
+        endereco.get(
+            "town", 
+            endereco.get(
+                "municipality", 
+                "Cidade não encontrada")
+                ) )
+    return jsonify({
+        "bairro": bairro,
+        "cidade": cidade
+    })
+
 
 @main.route("/vizualizacao_agendamentos_usuario")
 def vizualizacao_agendamentos_usuario():
