@@ -5,23 +5,17 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         Home Usuário
     </title>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for(
+    <link rel="stylesheet" href="{{ url_for(
             'static',
             filename='css/home_usuario.css'
-        ) }}"
-    >
-    
+        ) }}">
+
 
 </head>
 
@@ -38,28 +32,19 @@
             <div class="sidebar-top">
 
                 <!-- LOGO -->
-
-                <h1 class="logo">
-
-                    <span class="energy">ENERGY</span><span class="trans">TRANS</span>
-
-                </h1>
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/logo_projeto.png') }}">
+                </div>
 
                 <!-- LOCALIZAÇÃO -->
 
                 <div class="localizacao">
-
-                    <h3>
-                        Sua localização
-                    </h3>
-
                     <button class="btn-localizacao" id="btn-localizacao">Ativar localização atual</button>
 
+                    <h3> Sua localização</h3>
                     <div class="box-localizacao">
 
-                        <p id="texto-localizacao">
-                            Manaus - AM
-                        </p>
+                        <p id="texto-localizacao">Manaus - AM</p>
 
                     </div>
 
@@ -69,9 +54,7 @@
 
                 <div class="legenda">
 
-                    <h3>
-                        Pontos de coleta
-                    </h3>
+                    <h3>Pontos de coleta</h3>
 
                     <div class="item-legenda">
 
@@ -85,6 +68,19 @@
 
                     </div>
 
+                </div>
+
+                <div class="filtro-material">
+                    <h3>Filtro:</h3>
+                    <form method="get" action="{{url_for('main.home_usuario')}}">
+                        <select name="material">
+                            <option value="">Todos</option>
+                            {% for material in materias %}
+                            <option value="{{material}}">{{material}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Filtrar</button>
+                    </form>
                 </div>
 
             </div>
@@ -123,7 +119,7 @@
             </div>
 
             <!-- MAPA -->
-        
+
             <div class="mapa">
 
                 {{ mapa|safe }}
@@ -132,10 +128,7 @@
 
             <!-- CARD DINÂMICO -->
 
-            <div
-                class="card-ponto"
-                id="card-ponto"
-            >
+            <div class="card-ponto" id="card-ponto">
 
                 <h2 id="nome-ponto"> Clique em um ponto</h2>
 
@@ -166,11 +159,7 @@
             </div>
             <!-- MODAL DE AGENDAMENTO -->
 
-            <div
-                id="modal-agendamento"
-                class="modal-overlay"
-                style="display: none;"
-            >
+            <div id="modal-agendamento" class="modal-overlay" style="display: none;">
 
                 <div class="modal">
 
@@ -182,18 +171,11 @@
                         Agendar entrega
                     </h2>
 
-                    <form
-                        method="POST"
-                        action="{{ url_for('main.agendar') }}"
-                    >
+                    <form method="POST" action="{{ url_for('main.agendar') }}">
 
                         <!-- ID DO PONTO -->
 
-                        <input
-                            type="hidden"
-                            name="ponto_id"
-                            id="ponto-id"
-                        >
+                        <input type="hidden" name="ponto_id" id="ponto-id">
 
                         <!-- DATA -->
 
@@ -201,11 +183,7 @@
                             Data
                         </label>
 
-                        <input
-                            type="date"
-                            name="data_agendada"
-                            required
-                        >
+                        <input type="date" name="data_agendada" required>
 
                         <!-- HORÁRIO -->
 
@@ -213,11 +191,7 @@
                             Horário
                         </label>
 
-                        <input
-                            type="time"
-                            name="horario"
-                            required
-                        >
+                        <input type="time" name="horario" required>
 
                         <!-- BOTÃO -->
 
@@ -249,12 +223,10 @@
 
     <!-- JS -->
 
-<script
-    src="{{ url_for(
+    <script src="{{ url_for(
         'static',
         filename='js/home_usuario.js'
-    ) }}?v=2"
-></script>
+    ) }}?v=2"></script>
 </body>
 
 </html>

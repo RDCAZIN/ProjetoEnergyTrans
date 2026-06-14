@@ -157,21 +157,38 @@ def nova_senha():
 
 @main.route("/home_usuario")
 def home_usuario():
+    material = request.args.get("material")
+
+    #CRINDO LISTA DE MATERIAS PARA O FILTRO
+    materias = [
+        "Pilhas",
+        "Baterias",
+        "Celulares",
+        "Painéis"
+    ]
+
+    if material:
+        pontos = PontoColeta.query.filter(
+            PontoColeta.aprovado == True,
+            PontoColeta.materiais_aceitos.ilike(f"%{material}%")
+        ).all()
+    else:
+        pontos = PontoColeta.query.filter_by(aprovado = True).all()
+
+  
+
+
     #criando mapa
     control_scale=True
-    mapa = folium.Map(
-        
-        location=[-3.1190, -60.0217], zoom_start=13  )
-
-    pontos = PontoColeta.query.filter_by(aprovado = True).all()
-
+    mapa = folium.Map(location=[-3.1190, -60.0217], zoom_start=13  )
+    ##ADICIONANDO OS PONTOS NO MAPA
     for ponto in pontos:
         folium.Marker(
             [ponto.latitude, ponto.longitude],
             tooltip=ponto.nome
         ).add_to(mapa)
-
     mapa_html = mapa._repr_html_()
+    #INFORMAÇOES QUE SERÃO MOSTRADAS
     pontos_json = json.dumps([
         {
             "id": ponto.id,
@@ -183,10 +200,11 @@ def home_usuario():
             "longitude": ponto.longitude
         }
         for ponto in pontos
-
     ])
 
-    return render_template("usuario/home_usuario.html",mapa = mapa_html, pontos_json = pontos_json)
+
+
+    return render_template("usuario/home_usuario.html",mapa = mapa_html, pontos_json = pontos_json, materias = materias)
 
 @main.route("/buscar_endereco")
 def buscar_endereco():

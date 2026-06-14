@@ -42,78 +42,54 @@ body {
 
 .sidebar {
 
-    width: 340px;
-
+    width: 380px;
+    min-width: 380px;
     height: calc(100vh - 20px);
-
     background: white;
-
     border-radius: 25px;
-
     padding: 30px 15px;
-
     display: flex;
-
     flex-direction: column;
-
     justify-content: space-between;
-
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 
 }
 
 /* LOGO */
-
-/* LOGO */
-
 .logo {
 
-    font-size: 34px;
-
-    font-weight: bold;
-
-    margin-bottom: 40px;
-
-    letter-spacing: 1px;
-
-}
-
-/* ENERGY */
-
-.energy {
-
-    color: #2ecc71;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 10px,20px;
 
 }
 
-/* TRANS */
+/* IMAGEM */
 
-.trans {
-
-    color: #0f172a;
+.logo img {
+    width: 400px;
+    height: 120px;
+    object-fit: contain;
+    display: block;
 
 }
-
 
 /* SEÇÕES */
 
-.localizacao,
-.legenda {
 
-    margin-bottom: 30px;
-
-}
+.legenda {margin-bottom: 30px;}
 
 /* TITULOS */
 
 .localizacao h3,
 .legenda h3 {
-
+    margin-top: 10px;
     color: #111827;
-
     margin-bottom: 15px;
-
-    font-size: 24px;
+    font-size: 18px;
 
 }
 
@@ -675,6 +651,107 @@ transform: translateY(-2px);
 .barra_pesquisa button:hover {
 
     background: #d97706;
+
+}
+
+
+/* =========================
+   FILTRO DE MATERIAL
+========================= */
+
+.filtro-material {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+.filtro-material h3 {
+
+    font-size: 18px;
+
+    color: white;
+
+}
+
+/* FORM */
+
+.filtro-material form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+/* SELECT */
+
+.filtro-material select {
+
+    width: 100%;
+    padding: 12px;
+    border: 10px;
+    
+    border-radius: 12px;
+
+    background: whitesmoke;
+
+    color: black;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    outline: none;
+
+}
+
+/* HOVER */
+
+.filtro-material select:hover {
+
+    background: whitesmoke;
+
+}
+
+/* BOTÃO */
+
+.filtro-material button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: #2ecc71;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+/* HOVER */
+
+.filtro-material button:hover {
+
+    background: #27ae60;
+
+    transform: translateY(-2px);
 
 }
 
