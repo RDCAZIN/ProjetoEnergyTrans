@@ -15,31 +15,21 @@
 /* BODY */
 
 body {
-
     background: #eef2f7;
-
     height: 100vh;
-
     overflow: hidden;
-
 }
 
 /* CONTAINER */
 .container {
-
     display: flex;
-
     height: 100vh;
-
     padding: 10px;
-
     gap: 10px;
-
 }
-/* ========================= */
-/* SIDEBAR */
-/* ========================= */
 
+
+/* SIDEBAR */
 .sidebar {
 
     width: 380px;
@@ -52,69 +42,50 @@ body {
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-
 }
 
 /* LOGO */
 .logo {
-
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 5px;
     padding: 10px,20px;
-
 }
 
 /* IMAGEM */
-
 .logo img {
     width: 400px;
     height: 120px;
     object-fit: contain;
     display: block;
-
 }
 
 /* SEÇÕES */
-
-
 .legenda {margin-bottom: 30px;}
-
 /* TITULOS */
-
 .localizacao h3,
 .legenda h3 {
-    margin-top: 10px;
+    margin-top: 20px;
     color:#063851;
     margin-bottom: 15px;
-    font-size: 18px;
-
+    font-size: 18dp;
 }
 
 /* BOX LOCALIZAÇÃO */
-
 .box-localizacao {
     margin-top: 10px;
     background: #f8fafc;
-
     border: 1px solid #e5e7eb;
-
     border-radius: 15px;
-
     padding: 18px;
-
     color: #374151;
-
     font-size: 15px;
-
     line-height: 1.5;
-
 }
 
 /* LEGENDA */
-
 .item-legenda {
     display: flex;
     align-items: center;
@@ -135,7 +106,6 @@ body {
 }
 
 /* TEXTO LEGENDA */
-
 .item-legenda p {
     color: #374151;
     font-size: 15px;
@@ -143,7 +113,6 @@ body {
 }
 
 /* MENU */
-
 .menu {
 
     display: flex;
@@ -156,20 +125,18 @@ body {
 
 /* LINKS MENU */
 .menu a {
-    
     text-decoration: none;
     color: #334155;
     font-weight: bold;
     padding: 10px 8px;
     transition: 0.3s;
-
 }
 
 /* HOVER MENU */
 
 .menu a:hover {
-    background:#3BA672;
-    color: #3BA672;
+    background:#2ecc71;
+    color: white;
 }
 
 /* ========================= */
@@ -477,6 +444,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
+    font-size: 18dp;
 }
 
 /* HOVER */

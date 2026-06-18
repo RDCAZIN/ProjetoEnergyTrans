@@ -204,6 +204,8 @@ window.addEventListener("load", () => {
         "texto-localizacao"
     )
 
+    const textoAtivar= document.getElementById("text-ativar")
+
     // CLICK
 
     btnLocalizacao.addEventListener(
@@ -266,6 +268,7 @@ window.addEventListener("load", () => {
                                 console.log(dados)
                                 textoLocalizacao.innerText = `${dados.bairro} - ${dados.cidade}`
                             })
+                        textoAtivar.innerText = "Localização ativada"
                     },
 
                     () => {
