@@ -23,7 +23,6 @@ def home():
 @main.route("/escolha", methods=["POST"])
 def escolha():
     tipo = request.form.get("tipo")
-
     if tipo in ["usuario", "coletor"]:
         session["tipo_usuario"] = tipo
         return redirect(url_for("main.tem_conta"))
@@ -214,11 +213,21 @@ def buscar_endereco():
     })
 
 
-@main.route("/vizualizacao_agendamentos_usuario")
+@main.route("/vizualizacao_agendamentos_usuario", methods = ["POST", "GET"])
 def vizualizacao_agendamentos_usuario():
     usuario_id = session.get("usuario_id")
+    #cancelando/deletando agendamento
+    if request.method == "POST":
+        agendamento_id = request.form.get("agendamento_id")
+        agendamento_cancela = Agendamento.query.get(agendamento_id)
+        db.session.delete(agendamento_cancela)
+        db.session.commit()
+        return redirect(url_for("main.vizualizacao_agendamentos_usuario"))
+    
+    #mostrando agendametos
     agendamentos = Agendamento.query.filter_by(usuario_id= usuario_id)
     return render_template("usuario/vizualizar_agendamentos.html", agendamentos = agendamentos)
+    
 
 @main.route("/historico_usuario")
 def historico_usuario():

@@ -1,0 +1,162 @@
+/* RESET */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* BODY */
+
+body{
+    background: #eef2f7;
+    padding: 30px;
+}
+
+/* TÍTULO */
+
+.titulo{
+    text-align: center;
+    margin-bottom: 30px;
+    color: #0f172a;
+}
+
+.titulo h1{
+    font-size: 32px;
+}
+
+/* CONTAINER */
+
+.container-agendamentos{
+    max-width: 1000px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* CARD */
+
+.card-agendamento{
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 25px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    border-left: 8px solid #2ecc71;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+/* INFORMAÇÕES */
+
+.info-agendamento{
+    flex: 1;
+}
+
+.info-agendamento h2{
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.info-agendamento p{
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+/* STATUS */
+
+.status{
+
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: #dcfce7;
+
+    color: #166534;
+
+    font-weight: bold;
+
+    font-size: 14px;
+}
+
+/* BOTÃO CANCELAR */
+
+.btn-cancelar{
+
+    background: #ef4444;
+
+    color: white;
+
+    border: none;
+
+    padding: 14px 20px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.btn-cancelar:hover{
+
+    background: #dc2626;
+
+    transform: translateY(-2px);
+}
+
+/* SEM AGENDAMENTOS */
+
+.sem-agendamentos{
+
+    text-align: center;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 20px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    color: #64748b;
+}
+
+
+.volta_agendamento{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+
+    width: 44px;
+    height: 44px;
+
+    background-image: url("/static/img/voltar_branco.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}
