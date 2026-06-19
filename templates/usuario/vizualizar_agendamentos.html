@@ -1,19 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamentos</title>
+    <title>Meus Agendamentos</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/agendamentos_usuario.css') }}">
 </head>
+
 <body>
-    <h1>Agendamentos</h1>
-
-
+<div class="titulo">
+    <h1>Meus Agendamentos</h1>
+</div>
+<div class="container-agendamentos">
     {% for agendamento in agendamentos %}
+    <div class="card-agendamento">
+        <div class="info-agendamento">
 
-        <h2>{{agendamento.data_agendada}}</h2>
-        <h2>{{agendamento.status}}</h2>
+            <h2>{{ agendamento.ponto_coleta.nome }}</h2>
+
+            <p>
+                <strong>Endereço:</strong>
+                {{ agendamento.ponto_coleta.endereco }}
+            </p>
+
+            <p>
+                <strong>Data:</strong>
+                {{ agendamento.data_agendada }}
+            </p>
+
+            <p>
+                <strong>Horário:</strong>
+                {{ agendamento.horario }}
+            </p>
+
+            <span class="status">
+                {{ agendamento.status }}
+            </span>
+
+        </div>
+
+        <form method="POST">
+            <input
+                type="hidden"
+                name="agendamento_id"
+                value="{{ agendamento.id }}"
+            >
+            <button type="submit" class="btn-cancelar">Cancelar Entrega</button>
+        </form>
+    </div>
+
+    {% else %}
+
+    <div class="sem-agendamentos">
+        <h2>
+            Nenhum agendamento encontrado
+        </h2>
+    </div>
     {% endfor %}
-    
+
+</div>
 </body>
+
 </html>
