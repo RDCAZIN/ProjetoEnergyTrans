@@ -562,4 +562,54 @@ transform: translateY(-2px);
     transform: translateY(-2px);
 }
 
+/* FLASH*/
+#flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
+/* BASE */
+.flash {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: white;
+    background-color: #27ae60;
+    opacity: 1;
+    transform: translateY(-10px);
+    animation: slideDown 0.5s ease forwards;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* TIPOS */
+.flash.erro {
+    background-color: #ff4d4d;
+}
+
+.flash.sucesso {
+    background-color: #4CAF50;
+}
+
+/* ENTRADA */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* SAÍDA */
+.flash.hide {
+    opacity: 0;
+    transform: translateY(-20px);
+}
 

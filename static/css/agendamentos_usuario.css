@@ -141,3 +141,22 @@ body{
 
     color: #64748b;
 }
+
+
+.volta_agendamento{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+
+    width: 44px;
+    height: 44px;
+
+    background-image: url("/static/img/voltar_branco.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+}

@@ -20,6 +20,18 @@
 </head>
 
 <body>
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-container">
+                {% for categoria, mensagem in messages %}
+                    <div class="flash {{ categoria }}">
+                        {{ mensagem }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
     <div class="container">
 
@@ -205,6 +217,8 @@
         'static',
         filename='js/home_usuario.js'
     ) }}?v=2"></script>
+    
+    <script src="{{ url_for('static', filename='js/flash.js') }}"></script>
 </body>
 
 </html>

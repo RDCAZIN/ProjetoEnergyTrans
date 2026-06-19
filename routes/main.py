@@ -23,7 +23,6 @@ def home():
 @main.route("/escolha", methods=["POST"])
 def escolha():
     tipo = request.form.get("tipo")
-
     if tipo in ["usuario", "coletor"]:
         session["tipo_usuario"] = tipo
         return redirect(url_for("main.tem_conta"))
@@ -223,7 +222,6 @@ def vizualizacao_agendamentos_usuario():
         agendamento_cancela = Agendamento.query.get(agendamento_id)
         db.session.delete(agendamento_cancela)
         db.session.commit()
-        flash("Agendamento cancelado com sucesso !")
         return redirect(url_for("main.vizualizacao_agendamentos_usuario"))
     
     #mostrando agendametos
