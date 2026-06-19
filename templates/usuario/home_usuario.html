@@ -1,108 +1,206 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport"
-    content="width=device-width, initial-scale=1.0">
 
-    <title>Home Usuário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-    href="{{ url_for('static', filename='css/home_usuario.css') }}">
+    <title>
+        Home Usuário
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for(
+            'static',
+            filename='css/home_usuario.css'
+        ) }}">
+
+
 </head>
 
 <body>
-    <a href="{{url_for('main.vizualizacao_agendamentos_usuario')}}">agendamentos</a>
-    <a href="{{url_for('main.historico_usuario')}}">Histórico</a>
-    <a href="{{url_for('main.loja_cupons')}}">Loja de Cupons</a>
 
-    <h1>Pontos de Coleta</h1>
+    <div class="container">
 
-    <div class="container-pontos">
+        <!-- SIDEBAR -->
 
-        {% for ponto in pontos %}
+        <aside class="sidebar">
 
-            <div class="card-ponto">
+            <!-- CONTEÚDO SUPERIOR -->
 
-                <h2>{{ ponto.nome }}</h2>
+            <div class="sidebar-top">
 
-                <p>
-                    <strong>Endereço:</strong>
-                    {{ ponto.endereco }}
-                </p>
+                <!-- LOGO -->
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/logo_projeto.png') }}">
+                </div>
 
-                <p>
-                    <strong>Materiais:</strong>
-                    {{ ponto.materiais_aceitos }}
-                </p>
+                <!-- LOCALIZAÇÃO -->
 
-                <button
-                    class="btn-detalhes"
-                    data-id="{{ ponto.id }}"
-                    data-nome="{{ ponto.nome }}"
-                    data-endereco="{{ ponto.endereco }}"
-                    data-materiais="{{ ponto.materiais_aceitos }}"
-                    data-horario="{{ ponto.horario_funcionamento }}"
+                <div class="localizacao">
+                    <button class="btn-localizacao" id="btn-localizacao">
+                        <p id ="text-ativar">Ativar localização atual</p></button>
 
-                >
-                    Ver detalhes
-                </button>
+                    <h3> Sua localização:</h3>
+                    <div class="box-localizacao">
+                        <p id="texto-localizacao">Manaus - AM</p>
+                    </div>
+
+                </div>
+
+                <!-- LEGENDA -->
+
+                <div class="legenda">
+
+                    <h3>Pontos de coleta:</h3>
+
+                    <div class="item-legenda">
+
+                        <div class="bolinha verde">
+
+                        </div>
+
+                        <p>
+                            Pontos disponíveis
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="filtro-material">
+                    <h3>Filtro:</h3>
+                    <form method="get" action="{{url_for('main.home_usuario')}}">
+                        <select name="material">
+                            <option value="">Todos</option>
+                            {% for material in materias %}
+                            <option value="{{material}}">{{material}}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Filtrar</button>
+                    </form>
+                </div>
 
             </div>
 
-        {% endfor %}
+            <!-- MENU -->
+
+            <nav class="menu">
+
+                <a href=""><img src="{{url_for('static',filename='img/menu_barra.png')}}" alt=""></a>
+                <a href=""><img src="{{url_for('static', filename='img/menu_historico.png')}}" alt=""></a>
+
+                <a href=""><img src="{{url_for('static', filename='img/menu_cupons.png')}}" alt=""></a>
+
+                <a href=""><img src="{{url_for('static', filename= 'img/menu_agendamentos.png')}}"></a>
+
+            </nav>
+
+        </aside>
+
+        <!-- ÁREA DO MAPA -->
+
+        <main class="mapa-area">
+
+            <div class="barra_pesquisa">
+                <input type="text" id="pesquisar_ponto" placeholder="Informe o nome do ponto">
+                <button id="btn-pesquisar">Pesquisar</button>
+            </div>
+
+            <!-- MAPA -->
+
+            <div class="mapa">
+
+                {{ mapa|safe }}
+
+            </div>
+
+            <!-- CARD DINÂMICO -->
+
+            <div class="card-ponto" id="card-ponto">
+
+                <h2 id="nome-ponto"> Clique em um ponto</h2>
+
+                <p id="endereco-ponto">
+
+                </p>
+
+                <p id="materiais-ponto"></p>
+                <p id="horario-ponto"></p>
+                <button id="btn-agendar"> Agendar entrega</button>
+
+            </div>
+            <!-- MODAL DE AGENDAMENTO -->
+
+            <div id="modal-agendamento" class="modal-overlay" style="display: none;">
+
+                <div class="modal">
+
+                    <!-- BOTÃO FECHAR -->
+
+                    <button id="fechar-modal" class="btn-fechar">✕</button>
+
+                    <h2>
+                        Agendar entrega
+                    </h2>
+
+                    <form method="POST" action="{{ url_for('main.agendar') }}">
+
+                        <!-- ID DO PONTO -->
+
+                        <input type="hidden" name="ponto_id" id="ponto-id">
+
+                        <!-- DATA -->
+
+                        <label>
+                            Data
+                        </label>
+
+                        <input type="date" name="data_agendada" required>
+
+                        <!-- HORÁRIO -->
+
+                        <label>
+                            Horário
+                        </label>
+
+                        <input type="time" name="horario" required>
+
+                        <!-- BOTÃO -->
+
+                        <button class="agendar" type="submit">
+
+                            Confirmar agendamento
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </main>
 
     </div>
 
-    <!-- MODAL -->
+    <!-- DADOS DOS PONTOS -->
 
-    <div class="modal-overlay" id="modal-overlay">
+    <script>
 
-        <div class="modal">
+        const pontos = JSON.parse(
+            '{{ pontos_json | safe }}'
+        )
 
-            <button class="fechar-modal"
-            id="fechar-modal">
-                X
-            </button>
-
-            <h2 id="modal-nome"></h2>
-
-            <p>
-                <strong>Endereço:</strong>
-                <span id="modal-endereco"></span>
-            </p>
-
-            <p>
-                <strong>Materiais:</strong>
-                <span id="modal-materiais"></span>
-            </p>
-
-            <p>
-                <strong>Horário:</strong>
-                <span id="modal-horario"></span>
-            </p>
-
-            <form method="POST"action="{{ url_for('main.agendar') }}">
-
-                <input type="hidden" name="ponto_id" id="modal-ponto-id">
-                
-                <label>Data:</label> 
-                <input type="date" name="data_agendada" required>
-
-                <label>Horário:</label>
-                <input type="time" name="horario" required>
-
-                <button type="submit" class="btn-agendar"> Confirmar agendamento </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-    <script
-    src="{{ url_for('static', filename='js/modal_pontos.js') }}">
     </script>
 
+    <!-- JS -->
+
+    <script src="{{ url_for(
+        'static',
+        filename='js/home_usuario.js'
+    ) }}?v=2"></script>
 </body>
+
 </html>

@@ -1,140 +1,565 @@
-body {
+/* RESET */
+
+* {
+
     margin: 0;
-    padding: 40px;
 
-    font-family: 'Inter', sans-serif;
+    padding: 0;
 
-    background-color: #f5f5f5;
+    box-sizing: border-box;
+
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 40px;
+/* BODY */
+
+body {
+    background: #eef2f7;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.container-pontos {
+/* CONTAINER */
+.container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    height: 100vh;
+    padding: 10px;
+    gap: 10px;
 }
+
+
+/* SIDEBAR */
+.sidebar {
+
+    width: 380px;
+    min-width: 380px;
+    height: calc(100vh - 20px);
+    background: white;
+    border-radius: 25px;
+    padding: 30px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* LOGO */
+.logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 10px,20px;
+}
+
+/* IMAGEM */
+.logo img {
+    width: 400px;
+    height: 120px;
+    object-fit: contain;
+    display: block;
+}
+
+/* SEÇÕES */
+.legenda {margin-bottom: 30px;}
+/* TITULOS */
+.localizacao h3,
+.legenda h3 {
+    margin-top: 20px;
+    color:#063851;
+    margin-bottom: 15px;
+    font-size: 18dp;
+}
+
+/* BOX LOCALIZAÇÃO */
+.box-localizacao {
+    margin-top: 10px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 18px;
+    color: #374151;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* LEGENDA */
+.item-legenda {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+/* BOLINHA */
+.bolinha {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+}
+.verde {
+    background: #2ecc71;
+}
+
+/* TEXTO LEGENDA */
+.item-legenda p {
+    color: #374151;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* MENU */
+.menu {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding-top: 25px;
+
+}
+
+/* LINKS MENU */
+.menu a {
+    text-decoration: none;
+    color: #334155;
+    font-weight: bold;
+    padding: 10px 8px;
+    transition: 0.3s;
+}
+
+/* HOVER MENU */
+
+.menu a:hover {
+    background:#2ecc71;
+    color: white;
+}
+
+/* ========================= */
+/* ÁREA MAPA */
+/* ========================= */
+
+.mapa-area {
+
+    flex: 1;
+
+    position: relative;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+}
+
+/* MAPA */
+
+.mapa {
+
+    width: 100%;
+
+    height: 100%;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+}
+
+/* IFRAME FOLIUM */
+
+.mapa iframe {
+
+    width: 100%;
+
+    height: 100%;
+
+    border: none;
+
+}
+
+/* ========================= */
+/* CARD DO PONTO */
+/* ========================= */
 
 .card-ponto {
-    background-color: white;
 
-    width: 320px;
+    position: absolute;
 
-    padding: 20px;
+    bottom: 40px;
 
-    border-radius: 12px;
+    right: 40px;
 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 420px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    z-index: 500;
+
 }
+
+/* TITULO */
 
 .card-ponto h2 {
-    margin-top: 0;
+
+    color: #0f172a;
+
+    font-size: 28px;
+
 }
 
-.card-ponto a {
-    display: inline-block;
+/* TEXTOS */
 
-    margin-top: 15px;
+.card-ponto p {
 
-    background-color: #82B0FE;
+    color: #475569;
 
-    color: white;
+    line-height: 1.5;
 
-    padding: 10px 16px;
+    font-size: 15px;
 
-    border-radius: 8px;
+}
 
-    text-decoration: none;
+/* BOTÕES */
+
+.card-ponto button {
+
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
+
 }
 
 /* BOTÃO DETALHES */
 
-.btn-detalhes {
-    margin-top: 15px;
+#btn-detalhes {
 
-    width: 100%;
-    height: 45px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #82B0FE;
-
+    background: #369641;
     color: white;
 
-    font-weight: bold;
-
-    cursor: pointer;
 }
+
+/* BOTÃO AGENDAR */
+
+#btn-agendar {
+
+    background: #369641;
+
+    border: 2px solid #369641;
+    color: white;
+
+}
+
+/* HOVER BOTÕES */
+
+.card-ponto button:hover {
+
+    transform: translateY(-2px);
+
+}
+
 
 /* MODAL */
 
 .modal-overlay {
     position: fixed;
-
     top: 0;
     left: 0;
-
     width: 100%;
     height: 100%;
-
-    background-color: rgba(0,0,0,0.5);
-
-    display: none;
-
+    background: rgba(0,0,0,0.5);
+    display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 
-    z-index: 1000;
 }
 
-.modal {
-    position: relative;
+/* CAIXA MODAL */
 
-    background-color: white;
+.modal {
+
+    background: white;
 
     width: 400px;
 
     padding: 30px;
 
+    border-radius: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+}
+
+/* TÍTULO MODAL */
+
+.modal h2 {
+
+    color: #0f172a;
+
+}
+
+/* FORM */
+
+.modal form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+/* LABELS */
+
+.modal label {
+    color: #334155;
+    font-weight: bold;
+}
+
+/* INPUTS */
+
+.modal input {
+    padding: 14px;
     border-radius: 12px;
+    border: 1px solid #d1d5db;
+    outline: none;
 }
 
-.fechar-modal {
-    position: absolute;
+/* FOCUS INPUT */
 
-    top: 10px;
-    right: 10px;
+.modal input:focus {
+
+    border: 1px solid #2ecc71;
+
+}
+
+/* BOTÃO MODAL */
+
+.agendar{
+
+    padding: 14px;
 
     border: none;
 
-    background: none;
+    border-radius: 12px;
 
-    font-size: 18px;
-
-    cursor: pointer;
-}
-
-.btn-agendar {
-    margin-top: 20px;
-
-    width: 100%;
-    height: 45px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #4CAF50;
+    background: #2ecc71;
 
     color: white;
 
+    cursor: pointer;
+
+    font-size: 15px;
+
     font-weight: bold;
 
-    cursor: pointer;
+    transition: 0.3s;
+
 }
+
+/* HOVER MODAL */
+
+.modal button:hover {
+
+    transform: translateY(-2px);
+
+}
+/* MODAL */
+
+.modal {
+
+    position: relative;
+
+}
+
+/* BOTÃO FECHAR */
+
+.btn-fechar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #0f172a;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    
+
+}
+
+/* HOVER */
+
+.btn-fechar:hover {
+
+    background: #e2e8f0;
+
+    transform: scale(1.05);
+
+}
+
+/* BOTÃO LOCALIZAÇÃO */
+
+#btn-localizacao {
+
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: #2ecc71;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18dp;
+}
+
+/* HOVER */
+
+#btn-localizacao:hover {
+transform: translateY(-2px);
+}
+
+/* ==========================
+   BARRA DE PESQUISA
+========================== */
+
+.barra_pesquisa {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    width: 550px;
+    height: 50px;
+    background: white;
+    border: 4px solid #F28705;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+/* INPUT */
+
+.barra_pesquisa input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0 20px;
+    font-size: 18px;
+    background: white;
+}
+/* BOTÃO */
+
+.barra_pesquisa button {
+    height: 100%;
+    padding: 0 25px;
+    border: none;
+    background: #F28705;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.barra_pesquisa button:hover {
+    background: #d97706;
+}
+
+/* FILTRO DE MATERIAL*/
+
+.filtro-material {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filtro-material h3 {
+    font-size: 18px;
+    color: #063851;
+}
+
+/* FORM */
+
+.filtro-material form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* SELECT */
+.filtro-material select {
+    width: 100%;
+    padding: 12px;
+    border: 10px;
+    border-radius: 12px;
+    background: whitesmoke;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+/* HOVER */
+
+.filtro-material select:hover {
+    background: whitesmoke;
+}
+
+/* BOTÃO */
+
+.filtro-material button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: #2ecc71;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* HOVER */
+
+.filtro-material button:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+}
+
+

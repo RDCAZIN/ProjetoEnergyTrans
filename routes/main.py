@@ -5,6 +5,12 @@ from models.ponto_coleta import PontoColeta
 from models.agendamento import Agendamento
 from models.entrega import Entrega
 
+
+import folium
+import json
+from geopy.geocoders import Nominatim
+from flask import jsonify
+
 main = Blueprint('main', __name__)
 
 # Página inicial (seleção de perfil)
@@ -72,8 +78,6 @@ def cadastro():
                 db.session.add(novo_usuario)
                 db.session.commit()
                 return redirect(url_for('main.login'))
-        
-
     return render_template("autenticacao/cadastro.html")
 
 #login, verica se o email ta correto, senha e se o usuario escolheu o perfil certo
@@ -83,28 +87,21 @@ def login():
         email = request.form.get("email")
         senha = request.form.get("senha")
         tipo = session.get("tipo_usuario")
-
         usuario = Usuario.query.filter_by(email=email).first()
-
         if not usuario:
             flash("E-mail não encontrado", "erro")
             return redirect(url_for("main.login"))
-
         if usuario.senha != senha:
             flash("Senha incorreta", "erro")
             return redirect(url_for("main.login"))
-
         if usuario.tipo != tipo:
             flash("Perfil incorreto", "erro")
             return redirect(url_for("main.login"))
-
         # login OK
         session["usuario_id"] = usuario.id
         session["usuario_nome"] = usuario.nome
         session["usuario_tipo"] = usuario.tipo
-
         session.pop("tipo_usuario", None)
-
         if usuario.tipo == "coletor":
             return redirect(url_for("main.home_coletor"))
         else:
@@ -145,12 +142,77 @@ def nova_senha():
             return redirect(url_for("main.login"))
     return render_template("autenticacao/nova_senha.html")
 
+#---------------
+#TELAS DO USUARIO|
+#-----------------
 
 @main.route("/home_usuario")
 def home_usuario():
+    material = request.args.get("material")
+    #CRINDO LISTA DE MATERIAS PARA O FILTRO
+    materias = [
+        "Pilhas",
+        "Baterias",
+        "Celulares",
+        "Painéis"
+    ]
+    if material:
+        pontos = PontoColeta.query.filter(
+            PontoColeta.aprovado == True,
+            PontoColeta.materiais_aceitos.ilike(f"%{material}%")
+        ).all()
+    else:
+        pontos = PontoColeta.query.filter_by(aprovado = True).all()
+    #criando mapa
+    control_scale=True
+    mapa = folium.Map(location=[-3.1190, -60.0217], zoom_start=13  )
+    ##ADICIONANDO OS PONTOS NO MAPA
+    for ponto in pontos:
+        folium.Marker(
+            [ponto.latitude, ponto.longitude],
+            tooltip=ponto.nome
+        ).add_to(mapa)
+    mapa_html = mapa._repr_html_()
+    #INFORMAÇOES QUE SERÃO MOSTRADAS
+    pontos_json = json.dumps([
+        {
+            "id": ponto.id,
+            "nome": ponto.nome,
+            "endereco": ponto.endereco,
+            "materiais": ponto.materiais_aceitos,
+            "horario": ponto.horario_funcionamento,
+            "latitude": ponto.latitude,
+            "longitude": ponto.longitude
+        }
+        for ponto in pontos
+    ])
+    return render_template("usuario/home_usuario.html",mapa = mapa_html, pontos_json = pontos_json, materias = materias)
 
-    pontos = PontoColeta.query.filter_by(aprovado = True).all()
-    return render_template("usuario/home_usuario.html", pontos = pontos)
+@main.route("/buscar_endereco")
+def buscar_endereco():
+    latitude = request.args.get("latitude")
+    longitude = request.args.get("longitude")
+
+    geolocator = Nominatim(user_agent="energytrans")
+    localizacao = geolocator.reverse(f"{latitude}, {longitude}")
+
+    endereco = localizacao.raw["address"]
+    bairro = endereco.get(
+        "suburb", 
+        "Bairro não encontrado")
+    cidade = endereco.get(
+        "city",
+        endereco.get(
+            "town", 
+            endereco.get(
+                "municipality", 
+                "Cidade não encontrada")
+                ) )
+    return jsonify({
+        "bairro": bairro,
+        "cidade": cidade
+    })
+
 
 @main.route("/vizualizacao_agendamentos_usuario")
 def vizualizacao_agendamentos_usuario():
