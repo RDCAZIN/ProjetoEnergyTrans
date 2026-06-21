@@ -1,79 +1,204 @@
-// BOTÕES DOS PONTOS
+// =========================
+// MODAL EDITAR PONTO
+// =========================
+
+const pontoId =
+document.getElementById("ponto_id")
+
+const nomePonto =
+document.getElementById("nome_ponto")
+
+const enderecoPonto =
+document.getElementById("endereco_ponto")
+
+const materiaisPonto =
+document.getElementById("materias_ponto")
+
+const horarioPonto =
+document.getElementById("horario_ponto")
+
 const botoesPonto =
-document.querySelectorAll(".btn-ponto")
+document.querySelectorAll(".btn-editar")
 
-// BOTÕES DE CONFIRMAR ENTREGA
-const botoesConfirmar =
-document.querySelectorAll(".btn-confirmar")
-
-// MODAL
-const modal =
+const modalEditar =
 document.getElementById("modal-overlay")
 
-// INPUT HIDDEN
-const inputAgendamento =
-document.getElementById("agendamento-id")
+const btnFecharEditar =
+document.getElementById("fechar-modal")
 
 // =========================
-// ABRIR/CLOSE AGENDAMENTOS
+// ABRIR MODAL EDITAR
 // =========================
 
 botoesPonto.forEach(botao => {
 
     botao.addEventListener("click", () => {
 
-        const agendamentos =
-        botao.nextElementSibling
+        pontoId.value =
+        botao.dataset.id
+
+        nomePonto.value =
+        botao.dataset.nome
+
+        enderecoPonto.value =
+        botao.dataset.endereco
+
+        materiaisPonto.value =
+        botao.dataset.materiais
+
+        horarioPonto.value =
+        botao.dataset.horario
+
+        modalEditar.style.display =
+        "flex"
+
+    })
+
+})
+
+// =========================
+// FECHAR MODAL EDITAR
+// =========================
+
+btnFecharEditar.addEventListener(
+    "click",
+    () => {
+
+        modalEditar.style.display =
+        "none"
+
+    }
+)
+
+// =========================
+// FECHAR CLICANDO FORA
+// =========================
+
+modalEditar.addEventListener(
+    "click",
+    (event) => {
 
         if (
-            agendamentos.style.display === "block"
+            event.target === modalEditar
         ) {
 
-            agendamentos.style.display = "none"
-
-        } else {
-
-            agendamentos.style.display = "block"
+            modalEditar.style.display =
+            "none"
 
         }
 
-    })
+    }
+)
 
-})
-
-// =========================
-// ABRIR MODAL
-// =========================
-
-botoesConfirmar.forEach(botao => {
-
-    botao.addEventListener("click", () => {
-
-        // PEGA ID DO AGENDAMENTO
-        const agendamentoId =
-        botao.dataset.id
-
-        // COLOCA NO INPUT HIDDEN
-        inputAgendamento.value =
-        agendamentoId
-
-        // ABRE MODAL
-        modal.style.display = "flex"
-
-    })
-
-})
 
 // =========================
-// FECHAR MODAL CLICANDO FORA
+// MODAL CADASTRAR PONTO
 // =========================
 
-modal.addEventListener("click", (event) => {
+const modalCadastro =
+document.getElementById(
+    "modal-cadastro"
+)
 
-    if (event.target === modal) {
+const abrirCadastro =
+document.getElementById(
+    "abrir-modal-cadastro"
+)
 
-        modal.style.display = "none"
+const btnFecharCadastro =
+document.getElementById(
+    "fechar-modal-cadastro"
+)
+
+// =========================
+// ABRIR MODAL CADASTRO
+// =========================
+
+abrirCadastro.addEventListener(
+    "click",
+    () => {
+
+        modalCadastro.style.display =
+        "flex"
+        console.log("JS carregado com sdfucesso")
 
     }
+)
+
+// =========================
+// FECHAR MODAL CADASTRO
+// =========================
+
+btnFecharCadastro.addEventListener(
+    "click",
+    () => {
+
+        modalCadastro.style.display =
+        "none"
+
+    }
+)
+
+// =========================
+// FECHAR CLICANDO FORA
+// =========================
+
+modalCadastro.addEventListener(
+    "click",
+    (event) => {
+
+        if (
+            event.target === modalCadastro
+        ) {
+
+            modalCadastro.style.display =
+            "none"
+
+        }
+
+    }
+)
+
+const botao = document.getElementById(
+    "btn-localizacao"
+)
+
+botao.addEventListener("click", () => {
+
+    navigator.geolocation.getCurrentPosition(
+
+        (posicao) => {
+
+            const latitude =
+            posicao.coords.latitude
+
+            const longitude =
+            posicao.coords.longitude
+
+            document.getElementById(
+                "latitude"
+            ).value = latitude
+
+            document.getElementById(
+                "longitude"
+            ).value = longitude
+
+            alert(
+                "Localização capturada!"
+            )
+
+        },
+
+        () => {
+
+            alert(
+                "Erro ao obter localização"
+            )
+
+        }
+
+    )
 
 })
+
+
