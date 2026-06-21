@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{{url_for('static', filename = 'css/index.css')}}">
 </head>
 <body>
+    <div class="logo">
+        <img src="{{url_for('static', filename = 'img/logo_projeto.png')}}" alt="">
+    </div>
     <div class="conteiner">
         <h1>Como você deseja utilizar a plataforma?</h1>
         <form method="POST" action="{{ url_for('main.escolha') }}">
