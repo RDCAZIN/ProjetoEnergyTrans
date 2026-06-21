@@ -5,191 +5,244 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
         HOME COLETOR
     </title>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_coletor.css') }}">
+
 </head>
 
 <body>
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div id="flash-container">
+        {% for message in messages %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
 
-    <a href="{{url_for('main.cadastrar_ponto')}}">Cadastrar Ponto</a>
+    <div class="container">
 
-    <!-- TÍTULO -->
-    <h1>
-        Lista de Agendamentos
-    </h1>
+        <!-- SIDEBAR -->
 
-    <!-- CONTAINER PRINCIPAL -->
-    <div class="conteiner_pontos">
+        <aside class="sidebar">
 
-        <!-- LOOP DOS PONTOS -->
-        {% for ponto in pontos %}
+            <div class="sidebar-top">
 
-            <div class="card-ponto">
+                <!-- LOGO -->
 
-                <!-- BOTÃO DO PONTO -->
-                <button class="btn-ponto">
+                <div class="logo">
 
-                    {{ ponto.nome }}
+                    <img src="{{ url_for('static', filename='img/logo_projeto.png') }}" alt="Logo EnergyTrans">
 
-                </button>
+                </div>
 
-                <!-- LISTA DE AGENDAMENTOS -->
-                <div class="agendamentos">
+                <!-- AÇÕES -->
 
-                    <!-- LOOP DOS AGENDAMENTOS -->
-                    {% for agendamento in ponto.agendamentos %}
+                <h3 class="ponto_coleta">
+                    Pontos de Coleta
+                </h3>
 
-                        <!-- MOSTRA SOMENTE PENDENTES -->
-                        {% if agendamento.status != "concluido" %}
+                <div class="acoes">
 
-                            <div class="card-agendamento">
+                    <button type="button" class="btn-adicionar" id="abrir-modal-cadastro">
+                        Adicionar ponto
+                    </button>
 
-                                <!-- INFORMAÇÕES -->
-                                <p>
-                                    <strong>Usuário:</strong>
-                                    {{ agendamento.usuario.nome }}
-                                </p>
+                    <!-- FORM EXCLUIR -->
 
-                                <p>
-                                    <strong>Data:</strong>
-                                    {{ agendamento.data_agendada }}
-                                </p>
+                    <form method="POST" action="{{ url_for('main.home_coletor') }}" class="form-deletar">
 
-                                <p>
-                                    <strong>Horário:</strong>
-                                    {{ agendamento.horario }}
-                                </p>
+                        <select name="ponto_id" required>
 
-                                <p>
-                                    <strong>Status:</strong>
-                                    {{ agendamento.status }}
-                                </p>
+                            <option value="">
+                                Selecione o ponto
+                            </option>
 
-                                <!-- BOTÃO ABRIR MODAL -->
-                                <button
-                                    class="btn-confirmar"
+                            {% for ponto in pontos %}
 
-                                    data-id="{{ agendamento.id }}"
+                            <option value="{{ ponto.id }}">
+                                {{ ponto.nome }}
+                            </option>
 
-                                    data-usuario="{{ agendamento.usuario.nome }}"
-                                >
+                            {% endfor %}
 
-                                    Confirmar entrega
+                        </select>
 
-                                </button>
+                        <button type="submit" class="btn-deletar">
+                            Excluir ponto
+                        </button>
 
-                            </div>
-
-                        {% endif %}
-
-                    {% endfor %}
+                    </form>
 
                 </div>
 
             </div>
 
-        {% endfor %}
+            <!-- MENU -->
+
+            <nav class="menu">
+
+                <a href="{{url_for('main.home_coletor')}}" class="menu_home_coletor">
+                    <img src="{{ url_for('static', filename='img/menu_barra.png') }}" alt="">
+                </a>
+
+                <a href="#">
+                    <img src="{{ url_for('static', filename='img/menu_agendamentos.png') }}" alt="">
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- CONTEÚDO -->
+
+        <main class="main">
+
+            <div class="lista-pontos">
+
+                {% for ponto in pontos %}
+
+                <div class="card-ponto">
+
+                    <h2>
+
+                        {{ ponto.nome }}
+
+                    </h2>
+
+                    <p>
+
+                        <strong>
+                            Endereço:
+                        </strong>
+
+                        {{ ponto.endereco }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            Horário:
+                        </strong>
+
+                        {{ ponto.horario_funcionamento }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>
+                            Materiais:
+                        </strong>
+
+                        {{ ponto.materiais_aceitos }}
+
+                    </p>
+
+                    <div class="acoes-card">
+
+                        <button class="btn-editar" data-id="{{ ponto.id }}" data-nome="{{ ponto.nome }}"
+                            data-endereco="{{ ponto.endereco }}" data-materiais="{{ ponto.materiais_aceitos }}"
+                            data-horario="{{ ponto.horario_funcionamento }}">
+
+                            Editar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </main>
 
     </div>
 
     <!-- MODAL -->
-    <div
-        id="modal-overlay"
 
-        style="display: none;"
-    >
+    <div id="modal-overlay" style="display: none;">
 
         <div class="modal">
 
+            <!-- FECHAR -->
+
+            <button type="button" class="btn-fechar" id="fechar-modal">
+
+                ✕
+
+            </button>
+
             <h2>
-                Confirmar entrega
+
+                Editar ponto de coleta
+
             </h2>
 
-            <!-- FORMULÁRIO -->
-            <form
-                method="POST"
+            <!-- FORM -->
 
-                action="{{ url_for('main.confirmar_entrega') }}"
-            >
+            <form method="POST" action="{{ url_for('main.editar_ponto') }}">
 
-                <!-- ID DO AGENDAMENTO -->
-                <input
-                    type="hidden"
+                <!-- ID -->
 
-                    name="agendamento_id"
+                <input type="hidden" name="ponto_id" id="ponto_id">
 
-                    id="agendamento-id"
-                >
+                <!-- NOME -->
 
-                <!-- MATERIAL -->
-                <label for="material">
+                <label for="nome_ponto">
 
-                    Material reciclado
+                    Nome do ponto
 
                 </label>
 
-                <select
-                    name="material"
+                <input type="text" name="nome_ponto" id="nome_ponto" required>
 
-                    id="material"
+                <!-- ENDEREÇO -->
 
-                    required
-                >
+                <label for="endereco_ponto">
 
-                    <option value="">
-                        Selecione
-                    </option>
-
-                    <option value="Bateria">
-                        Bateria
-                    </option>
-
-                    <option value="Painel Solar">
-                        Painel Solar
-                    </option>
-
-                    <option value="Pilha">
-                        Pilha
-                    </option>
-
-                    <option value="Eletrônicos">
-                        Eletrônicos
-                    </option>
-
-                </select>
-
-                <!-- PESO -->
-                <label for="peso">
-
-                    Peso reciclado (kg)
+                    Endereço
 
                 </label>
 
-                <input
-                    type="number"
+                <input type="text" name="endereco_ponto" id="endereco_ponto" required>
 
-                    step="0.1"
+                <!-- MATERIAIS -->
 
-                    min="0.1"
+                <label for="materias_ponto">
 
-                    name="peso"
+                    Materiais aceitos
 
-                    id="peso"
+                </label>
 
-                    required
-                >
+                <input type="text" name="materias_ponto" id="materias_ponto"
+                    placeholder="Ex: Pilhas, Baterias, Celulares" required>
 
-                <!-- BOTÃO SUBMIT -->
-                <button type="submit">
+                <!-- HORÁRIO -->
 
-                    Confirmar
+                <label for="horario_ponto">
+
+                    Horário de funcionamento
+
+                </label>
+
+                <input type="text" name="horario_ponto" id="horario_ponto" placeholder="Ex: 08:00 às 18:00" required>
+
+                <!-- BOTÃO -->
+
+                <button type="submit" class="btn-confirmar">
+
+                    Salvar alterações
 
                 </button>
 
@@ -199,10 +252,66 @@
 
     </div>
 
-    <!-- JAVASCRIPT -->
-    <script
-        src="{{ url_for('static', filename='js/home_coletor.js') }}"
-    ></script>
+    <div id="modal-cadastro" class="modal-overlay" style="display:none;">
+
+        <div class="modal">
+
+            <button type="button" class="btn-fechar" id="fechar-modal-cadastro">
+                ✕
+            </button>
+
+            <h2>
+                Novo Ponto de Coleta
+            </h2>
+
+            <form method="POST" action="{{ url_for('main.cadastrar_ponto') }}">
+
+                <label>
+                    Nome do ponto
+                </label>
+
+                <input type="text" name="nome_ponto" required>
+
+                <label>
+                    Endereço
+                </label>
+
+                <input type="text" name="endereco_ponto" required>
+
+                <label>
+                    Materiais aceitos
+                </label>
+
+                <input type="text" name="materias_ponto" placeholder="Pilhas, Baterias, Celulares" required>
+
+                <label>
+                    Horário de funcionamento
+                </label>
+
+                <input type="text" name="horario_ponto" placeholder="08:00 às 18:00" required>
+
+                <input type="hidden" name="latitude" id="latitude">
+
+                <input type="hidden" name="longitude" id="longitude">
+                <p>Para que o seu ponto possa parecer no mapa dos nossos usuarios clique em <b>Usar minha
+                        locazação</b></p>
+
+                <button type="button" id="btn-localizacao">Usar minha localização</button>
+
+                <button type="submit" class="btn-confirmar">
+                    Criar
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- JS -->
+
+    <script src="{{ url_for('static', filename='js/home_coletor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/flash.js') }}"></script>
 
 </body>
 

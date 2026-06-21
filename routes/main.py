@@ -266,12 +266,27 @@ def agendar():
 #TELAS DO COLETOR ||
 #-----------------
 
-@main.route("/home_coletor")
+@main.route("/home_coletor", methods = ["POST", "GET"])
 def home_coletor():
+
+    #delete do ponto
+    if request.method == "POST":
+        ponto_id = request.form.get("ponto_id")
+        ponto = PontoColeta.query.get(ponto_id)
+
+        if ponto.agendamentos:
+            flash("esse ponto tem agendamentos pendentes !", "erro")
+            return redirect(url_for('main.home_coletor'))
+        else:
+            db.session.delete(ponto)
+            db.session.commit()
+            return redirect(url_for('main.home_coletor'))
+        
     coletor_id = session.get("usuario_id")
     pontos = PontoColeta.query.filter_by(coletor_id = coletor_id).all()
-    
     return render_template ("coletor/home_coletor.html", pontos = pontos)
+
+
 
 #o coletor confirma a entrega e gera os pontos
 @main.route("/confirmar_entrega", methods = ["POST"])
@@ -305,42 +320,60 @@ def confirmar_entrega():
     flash("Entrega confirmada")
     return redirect(url_for("main.home_coletor"))
 
-@main.route("/cadastrar_ponto", methods = ["POST", "GET"])
+@main.route("/cadastrar_ponto", methods = ["POST"])
 def cadastrar_ponto():
-    if request.method == "POST":
-        nome = request.form.get("nome_ponto")
-        endereco = request.form.get("endereco_ponto")
-        materiais_aceitos = request.form.get("materias_ponto")
-        horario_funcionamento = request.form.get("horario_ponto")
-        latitude = request.form.get("latitude")
-        longitude = request.form.get("longitude")
-        coletor_id = session.get("usuario_id")
+    nome = request.form.get("nome_ponto")
+    endereco = request.form.get("endereco_ponto")
+    materiais_aceitos = request.form.get("materias_ponto")
+    horario_funcionamento = request.form.get("horario_ponto")
+    latitude = request.form.get("latitude")
+    longitude = request.form.get("longitude")
+    coletor_id = session.get("usuario_id")
 
-        if not latitude or not longitude:
-            flash("Localização invalida", "erro")
-            return redirect(url_for("main.cadastrar_ponto"))
-        else:
-            latitude = float(latitude)
-            longitude = float(longitude)
+    if not latitude or not longitude:
+        flash("Localização invalida", "erro")
+        return redirect(url_for("main.cadastrar_ponto"))
+    else:
+        latitude = float(latitude)
+        longitude = float(longitude)
             
-            novo_ponto = PontoColeta(
-                nome = nome,
-                endereco = endereco,
-                materiais_aceitos = materiais_aceitos,
-                horario_funcionamento = horario_funcionamento,
-                latitude = latitude,
-                longitude = longitude,
-                coletor_id = coletor_id
+        novo_ponto = PontoColeta(
+            nome = nome,
+            endereco = endereco,
+             materiais_aceitos = materiais_aceitos,
+             horario_funcionamento = horario_funcionamento,
+            latitude = latitude,
+            longitude = longitude,
+            coletor_id = coletor_id
             )
 
-            db.session.add(novo_ponto)
-            db.session.commit()
-            flash("Cadastro Realizado com sucesso!")
-            return redirect(url_for("main.home_coletor"))
-     
+        db.session.add(novo_ponto)
+        db.session.commit()
+        flash("Cadastro Realizado com sucesso!")
+    return redirect(url_for("main.home_coletor"))
+    
+ 
 
 
-    return render_template("coletor/cadastro_de_ponto.html")
+@main.route("/editar_ponto", methods = ["POST"])
+def editar_ponto():
+    ponto_id = request.form.get("ponto_id")
+    nome_ponto = request.form.get("nome_ponto")
+    endereco_ponto = request.form.get("endereco_ponto")
+    materias_ponto = request.form.get("materias_ponto")
+    horario_ponto = request.form.get("horario_ponto")
+
+    ponto = PontoColeta.query.get(ponto_id)
+
+    ponto.nome = nome_ponto
+    ponto.edereco = endereco_ponto
+    ponto.materiais_aceitos = materias_ponto
+    ponto.horario_funcionamento = horario_ponto
+
+    db.session.commit()
+
+
+    return redirect(url_for("main.home_coletor"))
 
 
 
