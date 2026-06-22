@@ -90,10 +90,46 @@ with app.app_context():
         coletor_id=coletor1.id
     )
 
+    ponto4 = PontoColeta(
+        nome="EcoPoint Jorge Teixeira",
+        endereco="Av. Itaúba, Jorge Teixeira",
+        materiais_aceitos="Pilhas, Baterias, Celulares, Cabos",
+        horario_funcionamento="08:00 às 18:00",
+        latitude="-3.0440",
+        longitude="-59.9440",
+        aprovado=True,
+        coletor_id=coletor1.id
+    )
+
+    ponto5 = PontoColeta(
+        nome="Recicla Cidade Nova",
+        endereco="Av. Noel Nutels, Cidade Nova",
+        materiais_aceitos="Notebooks, Monitores, Impressoras",
+        horario_funcionamento="08:00 às 17:00",
+        latitude="-3.0180",
+        longitude="-60.0150",
+        aprovado=True,
+        coletor_id=coletor1.id
+    )
+
+    ponto6 = PontoColeta(
+        nome="Ponto Verde Ponta Negra",
+        endereco="Av. Coronel Teixeira, Ponta Negra",
+        materiais_aceitos="Baterias, Fontes, Equipamentos Eletrônicos",
+        horario_funcionamento="09:00 às 18:00",
+        latitude="-3.0620",
+        longitude="-60.1030",
+        aprovado=True,
+        coletor_id=coletor1.id
+    )
+
     db.session.add_all([
         ponto1,
         ponto2,
-        ponto3
+        ponto3,
+        ponto4,
+        ponto5,
+        ponto6
     ])
 
     db.session.commit()
